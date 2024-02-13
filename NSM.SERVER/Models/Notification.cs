@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NSM.SERVER.Models
 {
-    class Notification
+    public class Notification
     {
 
         [Key]
