@@ -1,2 +1,10 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using NSM.SERVER.Models;
+using NSM.SERVER.CORE;
+
+class Program
+{
+    public static void Main()
+    {
+        
+    }
+}

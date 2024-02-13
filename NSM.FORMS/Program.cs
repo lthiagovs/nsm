@@ -1,5 +1,6 @@
 using NSM.FORMS.Forms;
 
+
 namespace NSM.FORMS
 {
     internal static class Program
@@ -10,6 +11,7 @@ namespace NSM.FORMS
         [STAThread]
         static void Main()
         {
+            
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
