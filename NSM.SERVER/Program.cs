@@ -1,4 +1,5 @@
 ﻿using NSM.SERVER.CORE;
+using System.Text.Json;
 
 class Program
 {
@@ -6,33 +7,41 @@ class Program
     public static void Send()
     {
         string command = "";
+        List<object> bye = new List<object>();
+        bye.Add("Bye bye...");
+
         while (!command.Equals("end")) {
-            Console.WriteLine("Write a message:");
+
+            MessagePackage message = new MessagePackage();
+            message.ClientId = 1;
+            message.MessageType = MessageType.Message_CreateUser;
+            message.Informations = bye;
+
+            //Serializer
+            var SerializeOptions = new JsonSerializerOptions();
+            SerializeOptions.WriteIndented = true;
+
+
+            string jsonMessage = JsonSerializer.Serialize<MessagePackage>(message, SerializeOptions);
+
+            Client.ClientWriter.Write(jsonMessage);
+
             command = Console.ReadLine();
-            Client.ClientWriter.Write(command);
         }
+
         Run = false;
     }
 
     public static void Main()
     {
-        Console.WriteLine("ServerListener/Client Test...");
 
-        //Start server
-        Thread serverStart = new Thread(Server.Start);
-        serverStart.Start();
+        Thread ServerConsole = new Thread(Server.Show);
+        Thread ServerListen = new Thread(Server.Start);
 
-        //Start client
-        Thread clientSends = new Thread(Send);
-        Client.Start();
-        clientSends.Start();
+        Server.Start();
+        ServerConsole.Start();
 
-        //ServerListener Loop
-        while(Run)
-        {
-        }
-
-        Client.Close();
         Server.Close();
+
     }
 }

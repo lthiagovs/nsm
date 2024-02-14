@@ -6,7 +6,7 @@ namespace NSM.TEST
     [TestClass]
     public class DatabaseTest
     {
-        //Database.CreateUser
+        //Database.Message_CreateUser
         #region
         [TestMethod]
         [TestCategory("Database")]
@@ -30,7 +30,7 @@ namespace NSM.TEST
         }
         #endregion
 
-        //Database.GetUser
+        //Database.Message_GetUser
         #region
         [TestMethod]
         [TestCategory("Database")]
