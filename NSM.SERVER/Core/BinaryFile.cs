@@ -51,6 +51,44 @@
 
         }
 
+        //Writes all text lines on file
+        public void WriteAll(List<string> Text)
+        {
+            try
+            {
+                foreach(string word in Text)
+                {
+                    FileWriter.Write(word);
+                }
+            }
+            catch
+            {
+                throw new Exception();
+            }
+        }
+
+        //Reads all file strings
+        public List<string> ReadAll()
+        {
+            List<string> FileText = new List<string>();
+            try
+            {
+                string text = FileReader.ReadString();
+                while (this.FileStream.Position != this.FileStream.Length)
+                {
+                    FileText.Add(text);
+                    text = FileReader.ReadString();
+                }
+
+            }
+            catch
+            {
+                throw new Exception();
+            }
+            return FileText;
+
+        }
+
         //Interface IDisposable
         public void Dispose()
         {
