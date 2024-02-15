@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSM.FORMS", "NSM.FORMS\NSM.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NSM.SERVER", "NSM.SERVER\NSM.SERVER.csproj", "{B450523F-37E2-42ED-9D77-2875C8C2ABE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSM.TEST", "NSM.TEST\NSM.TEST.csproj", "{98675C95-4FA5-4CEF-B563-4383119C2510}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{B450523F-37E2-42ED-9D77-2875C8C2ABE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B450523F-37E2-42ED-9D77-2875C8C2ABE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B450523F-37E2-42ED-9D77-2875C8C2ABE8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{98675C95-4FA5-4CEF-B563-4383119C2510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{98675C95-4FA5-4CEF-B563-4383119C2510}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{98675C95-4FA5-4CEF-B563-4383119C2510}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{98675C95-4FA5-4CEF-B563-4383119C2510}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
