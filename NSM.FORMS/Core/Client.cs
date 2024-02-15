@@ -1,6 +1,9 @@
-﻿using System.Net.Sockets;
+﻿using NSM.COMMON;
+using System.Net.Sockets;
+using System.Text.Json;
+using System.Text;
 
-namespace NSM.FORMS.Core
+namespace NSM.FORMS.CORE
 {
     public static class Client
     {
@@ -11,7 +14,7 @@ namespace NSM.FORMS.Core
 
         public static void Start()
         {
-            ClientListener.Connect("127.0.0.1", 4444);
+            ClientListener.Connect("localhost", 4444);
             SocketStream = ClientListener.GetStream();
             ClientReader = new BinaryReader(SocketStream);
             ClientWriter = new BinaryWriter(SocketStream);
@@ -27,5 +30,34 @@ namespace NSM.FORMS.Core
             ClientListener.Dispose();
         }
 
+        public static MessagePackage Listen()
+        {
+
+            string Json = Client.ClientReader.ReadString();
+            MessagePackage Message = JsonSerializer.Deserialize<MessagePackage>(Json);
+            return Message;
+
+        }
+
+        public static void Send(MessagePackage MessagePackage)
+        {
+
+            string JsonMessage = JsonSerializer.Serialize<MessagePackage>(MessagePackage);
+            Client.ClientWriter.Write(JsonMessage);
+
+        }
+
     }
+
+    public static class CurrentUser
+    {
+
+        public static int Id { get; set; }
+        public static string Name { get; set; }
+        public static string Password { get; set; }
+        public static string Login { get; set; }
+        public static string Photo { get; set; }
+
+    }
+
 }

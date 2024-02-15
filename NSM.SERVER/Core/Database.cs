@@ -41,6 +41,7 @@ namespace NSM.SERVER.CORE
                 try
                 {
                     getUser = db.User.Single(x => login.Equals(x.Login) && password.Equals(x.Password));
+                    return getUser;
                 }
                 catch
                 {
@@ -48,7 +49,6 @@ namespace NSM.SERVER.CORE
                 }
 
             }
-            return getUser;
 
         }
 

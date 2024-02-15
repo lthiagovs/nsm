@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace NSM.FORMS.Forms
 {
-    public partial class LoginForm : Form
+    public partial class MessageControl : UserControl
     {
-        public LoginForm()
+        public MessageControl()
         {
             InitializeComponent();
         }

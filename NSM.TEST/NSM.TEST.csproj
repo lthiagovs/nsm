@@ -27,11 +27,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NSM.SERVER\NSM.SERVER.csproj" />
+    <Folder Include="TestFiles\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TestFiles\" />
+    <ProjectReference Include="..\NSM.COMMON\NSM.COMMON.csproj" />
+    <ProjectReference Include="..\NSM.SERVER\NSM.SERVER.csproj" />
   </ItemGroup>
 
   <ItemGroup>

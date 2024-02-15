@@ -1,4 +1,4 @@
-﻿using NSM.SERVER.CORE;
+﻿using NSM.COMMON;
 
 namespace NSM.TEST
 {
