@@ -30,10 +30,12 @@
         {
             panel1 = new Panel();
             panel6 = new Panel();
-            label1 = new Label();
-            panel4 = new Panel();
-            lbName = new Label();
             lbPhoto = new PictureBox();
+            btnSearchFriends = new Button();
+            lbName = new Label();
+            panel4 = new Panel();
+            label1 = new Label();
+            pnFriends = new Panel();
             panel3 = new Panel();
             panel5 = new Panel();
             button2 = new Button();
@@ -43,6 +45,7 @@
             panel2 = new Panel();
             label2 = new Label();
             panel1.SuspendLayout();
+            panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)lbPhoto).BeginInit();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
@@ -53,10 +56,7 @@
             panel1.BackColor = SystemColors.ActiveCaption;
             panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Controls.Add(panel6);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(panel4);
-            panel1.Controls.Add(lbName);
-            panel1.Controls.Add(lbPhoto);
+            panel1.Controls.Add(pnFriends);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
@@ -65,27 +65,35 @@
             // 
             // panel6
             // 
-            panel6.Location = new Point(3, 147);
+            panel6.Controls.Add(lbPhoto);
+            panel6.Controls.Add(btnSearchFriends);
+            panel6.Controls.Add(lbName);
+            panel6.Controls.Add(panel4);
+            panel6.Controls.Add(label1);
+            panel6.Dock = DockStyle.Top;
+            panel6.Location = new Point(0, 0);
             panel6.Name = "panel6";
-            panel6.Size = new Size(102, 298);
-            panel6.TabIndex = 4;
+            panel6.Size = new Size(108, 179);
+            panel6.TabIndex = 6;
             // 
-            // label1
+            // lbPhoto
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(3, 129);
-            label1.Name = "label1";
-            label1.Size = new Size(51, 15);
-            label1.TabIndex = 3;
-            label1.Text = "Amigos:";
+            lbPhoto.BorderStyle = BorderStyle.FixedSingle;
+            lbPhoto.Location = new Point(3, 3);
+            lbPhoto.Name = "lbPhoto";
+            lbPhoto.Size = new Size(100, 100);
+            lbPhoto.TabIndex = 0;
+            lbPhoto.TabStop = false;
             // 
-            // panel4
+            // btnSearchFriends
             // 
-            panel4.BackColor = SystemColors.ActiveCaptionText;
-            panel4.Location = new Point(3, 124);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(102, 2);
-            panel4.TabIndex = 2;
+            btnSearchFriends.Location = new Point(3, 147);
+            btnSearchFriends.Name = "btnSearchFriends";
+            btnSearchFriends.Size = new Size(75, 23);
+            btnSearchFriends.TabIndex = 5;
+            btnSearchFriends.Text = "Buscar";
+            btnSearchFriends.UseVisualStyleBackColor = true;
+            btnSearchFriends.Click += btnSearchFriends_Click;
             // 
             // lbName
             // 
@@ -96,14 +104,31 @@
             lbName.TabIndex = 1;
             lbName.Text = "_name_";
             // 
-            // lbPhoto
+            // panel4
             // 
-            lbPhoto.BorderStyle = BorderStyle.FixedSingle;
-            lbPhoto.Location = new Point(3, 3);
-            lbPhoto.Name = "lbPhoto";
-            lbPhoto.Size = new Size(100, 100);
-            lbPhoto.TabIndex = 0;
-            lbPhoto.TabStop = false;
+            panel4.BackColor = SystemColors.ActiveCaptionText;
+            panel4.Location = new Point(3, 124);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(102, 2);
+            panel4.TabIndex = 2;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(3, 129);
+            label1.Name = "label1";
+            label1.Size = new Size(51, 15);
+            label1.TabIndex = 3;
+            label1.Text = "Amigos:";
+            // 
+            // pnFriends
+            // 
+            pnFriends.AutoScroll = true;
+            pnFriends.Dock = DockStyle.Bottom;
+            pnFriends.Location = new Point(0, 185);
+            pnFriends.Name = "pnFriends";
+            pnFriends.Size = new Size(108, 263);
+            pnFriends.TabIndex = 4;
             // 
             // panel3
             // 
@@ -187,9 +212,11 @@
             Controls.Add(panel2);
             Controls.Add(panel1);
             Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "NSM";
             panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            panel6.ResumeLayout(false);
+            panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)lbPhoto).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
@@ -209,10 +236,14 @@
         private Button button1;
         private TextBox textBox1;
         private Panel panel5;
-        private Panel panel6;
+        private Panel pnFriends;
         private Panel panel7;
         private Panel panel2;
         private Label label2;
         public Label lbName;
+        public string LoginData;
+        public string PasswordData;
+        private Button btnSearchFriends;
+        private Panel panel6;
     }
 }

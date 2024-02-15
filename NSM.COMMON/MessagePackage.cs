@@ -7,8 +7,10 @@
         Message_CloseServer,
         Message_CreateUser,
         Message_GetUser,
+        Message_SearchUser,     
         Message_Confirmation,
-        Message_Negation
+        Message_Negation,
+        Message_CreateFriendChat,
 
     }
 

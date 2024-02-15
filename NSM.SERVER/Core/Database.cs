@@ -52,6 +52,44 @@ namespace NSM.SERVER.CORE
 
         }
 
+        public static User? GetUser(string name)
+        {
+            User? getUser = null;
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                try
+                {
+                    getUser = db.User.Single(x => x.Name.Equals(name));
+                    return getUser;
+                }
+                catch
+                {
+                    return getUser;
+                }
+
+            }
+
+        }
+
+        public static bool UserExist(string name)
+        {
+            User? getUser = null;
+            using (DatabaseContext db = new DatabaseContext())
+            {
+                try
+                {
+                    getUser = db.User.Single(x => name.Equals(x.Name));
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+
+            }
+
+        }
+
         public static void DeleteUser(string login, string password)
         {
             
@@ -233,6 +271,26 @@ namespace NSM.SERVER.CORE
 
         }
 
+        public static void BoundChat(int ChatId, int UserId)
+        {
+            ChatUser chatUser = new ChatUser();
+            chatUser.ChatId = ChatId;
+            chatUser.UserId = UserId;
+            using(DatabaseContext db = new DatabaseContext())
+            {
+                db.ChatUser.Add(chatUser);
+                db.SaveChanges();
+            }
+        }
+
+        public static Chat GetLastChat()
+        {
+            using(DatabaseContext db = new DatabaseContext())
+            {
+                return (db.Chat.ToList())[db.Chat.Count() - 1];
+            }
+        }
+
         public static List<Chat> GetChats(int UserId)
         {
             List<Chat> chats = new List<Chat>();
@@ -262,6 +320,52 @@ namespace NSM.SERVER.CORE
             }
 
             return chats;
+        }
+
+        //**Very complex!!**// O(x^2) //**Very complex!!**//
+        public static Chat GetFriendChat(int UserId, int FriendId)
+        {
+            Chat Chat = null;
+            using(DatabaseContext db = new DatabaseContext())
+            {
+                try
+                {
+                    //Search for a chat in common
+                    foreach(ChatUser userChats in db.ChatUser)
+                    {
+
+                        //Got a chat thats user have!
+                        if(userChats.UserId == UserId)
+                        {
+
+                            foreach(ChatUser friendChats in db.ChatUser)
+                            {
+
+                                //Got a chat that the friend have!
+                                if (friendChats.UserId == FriendId)
+                                {
+                                    //They are the same!
+                                    if (friendChats.ChatId == userChats.ChatId)
+                                    {
+                                        return db.Chat.Single(x => x.Id == friendChats.ChatId);
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+
+                    return Chat;
+                }
+                catch
+                {
+                    return Chat;
+                }
+            }
+
         }
 
         public static void DeleteChat(int ChatId)

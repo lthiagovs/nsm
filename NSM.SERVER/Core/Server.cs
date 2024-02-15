@@ -31,6 +31,7 @@ namespace NSM.SERVER.CORE
         private static int ServerMessages_Count = 0;
         private static int ClientMessages_Count = 0;
         private static int ExecutedOperations = 0;
+        private static int WrongPackageReceived = 0;
 
 
         //Start the server
@@ -147,7 +148,7 @@ namespace NSM.SERVER.CORE
 
                 try
                 {
-                    //Message wants to create a new account
+                    //Operations
                     if (Message.MessageType == MessageType.Message_CreateUser)
                     {
                         //Try to read the message
@@ -189,10 +190,42 @@ namespace NSM.SERVER.CORE
                         }
 
                     }
+                    else if (Message.MessageType == MessageType.Message_SearchUser)
+                    {
+
+                        User? User = Database.GetUser(Message.Informations[0]);
+
+                        if(User != null)
+                        {
+
+                            //Send to client user Id
+                            MessagePackage UserMessage = new MessagePackage();
+                            UserMessage.ClientId = Message.ClientId;
+                            UserMessage.MessageType = MessageType.Message_Confirmation;
+                            UserMessage.Informations = new List<string>();
+                            UserMessage.Informations.Add(User.Id + "");
+                            ClientMessages.Add(UserMessage);
+
+                        }
+                        else
+                        {
+                            Negation(Message.ClientId);
+                        }
+
+                    }
+                    else if (Message.MessageType == MessageType.Message_CreateFriendChat)
+                    {
+                        Database.CreateChat("FriendChat",Message.ClientId);
+                        Chat chat = Database.GetLastChat();
+                        Database.BoundChat(chat.Id, Convert.ToInt32(Message.Informations[0]));
+                    }
+
+                    //Operations
 
                 }
                 catch
                 {
+                    WrongPackageReceived++;
                     if (Message != null) { WrongFormat(Message.ClientId);}
                 }
             }
@@ -209,6 +242,7 @@ namespace NSM.SERVER.CORE
                 Console.WriteLine("Current Message Packages to send: " +(ClientMessages.Count-ClientMessages_Count));
                 Console.WriteLine("------------------");
                 Console.WriteLine("Executed Operations: " + ExecutedOperations);
+                Console.WriteLine("Wrong Packages Received: " + WrongPackageReceived);
                 Thread.Sleep(1000);
                 Console.Clear();
             }

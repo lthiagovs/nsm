@@ -5,9 +5,17 @@ namespace NSM.FORMS.Forms
 {
     public partial class LoginControl : UserControl
     {
+
+        Thread MainFormThread;
+
         public LoginControl()
         {
             InitializeComponent();
+        }
+
+        private void OpenMainForm(string LoginData, string PasswordData)
+        {
+            Application.Run(new MainForm(LoginData,PasswordData));
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -24,9 +32,13 @@ namespace NSM.FORMS.Forms
 
             if(Message.MessageType == MessageType.Message_Confirmation)
             {
+                AccountForm Parent = (AccountForm) this.Parent.Parent;
+                Parent.Close();
+
                 MessageBox.Show("Logado com sucesso.");
-                MainForm mainForm = new MainForm ();
-                mainForm.Show();
+                MainFormThread = new Thread(() => OpenMainForm(Message.Informations[2], Message.Informations[3]));
+                MainFormThread.SetApartmentState(ApartmentState.STA);
+                MainFormThread.Start();
             }
             else if(Message.MessageType == MessageType.Message_Negation)
             {

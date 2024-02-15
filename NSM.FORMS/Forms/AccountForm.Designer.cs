@@ -86,6 +86,7 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "AccountForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "NSM";
             menu.ResumeLayout(false);
             menu.PerformLayout();
