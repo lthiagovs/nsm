@@ -41,41 +41,45 @@
             // 
             // txtPassword
             // 
-            txtPassword.Location = new Point(93, 147);
+            txtPassword.Location = new Point(106, 196);
+            txtPassword.Margin = new Padding(3, 4, 3, 4);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(130, 23);
+            txtPassword.Size = new Size(148, 27);
             txtPassword.TabIndex = 9;
+            txtPassword.TextChanged += txtPassword_TextChanged;
             // 
             // txtLogin
             // 
-            txtLogin.Location = new Point(93, 90);
+            txtLogin.Location = new Point(106, 120);
+            txtLogin.Margin = new Padding(3, 4, 3, 4);
             txtLogin.Name = "txtLogin";
-            txtLogin.Size = new Size(130, 23);
+            txtLogin.Size = new Size(148, 27);
             txtLogin.TabIndex = 8;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(93, 129);
+            label2.Location = new Point(106, 172);
             label2.Name = "label2";
-            label2.Size = new Size(42, 15);
+            label2.Size = new Size(52, 20);
             label2.TabIndex = 7;
             label2.Text = "Senha:";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(91, 72);
+            label1.Location = new Point(104, 96);
             label1.Name = "label1";
-            label1.Size = new Size(40, 15);
+            label1.Size = new Size(49, 20);
             label1.TabIndex = 6;
             label1.Text = "Login:";
             // 
             // btnRegister
             // 
-            btnRegister.Location = new Point(211, 366);
+            btnRegister.Location = new Point(241, 488);
+            btnRegister.Margin = new Padding(3, 4, 3, 4);
             btnRegister.Name = "btnRegister";
-            btnRegister.Size = new Size(75, 23);
+            btnRegister.Size = new Size(86, 31);
             btnRegister.TabIndex = 5;
             btnRegister.Text = "Cadastrar";
             btnRegister.UseVisualStyleBackColor = true;
@@ -83,39 +87,41 @@
             // 
             // txtPasswordRepeat
             // 
-            txtPasswordRepeat.Location = new Point(93, 210);
+            txtPasswordRepeat.Location = new Point(106, 280);
+            txtPasswordRepeat.Margin = new Padding(3, 4, 3, 4);
             txtPasswordRepeat.Name = "txtPasswordRepeat";
-            txtPasswordRepeat.Size = new Size(130, 23);
+            txtPasswordRepeat.Size = new Size(148, 27);
             txtPasswordRepeat.TabIndex = 11;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(93, 192);
+            label3.Location = new Point(106, 256);
             label3.Name = "label3";
-            label3.Size = new Size(82, 15);
+            label3.Size = new Size(104, 20);
             label3.TabIndex = 10;
             label3.Text = "Repetir Senha:";
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(93, 255);
+            label4.Location = new Point(106, 340);
             label4.Name = "label4";
-            label4.Size = new Size(99, 15);
+            label4.Size = new Size(123, 20);
             label4.TabIndex = 12;
             label4.Text = "Nome Completo:";
             // 
             // txtName
             // 
-            txtName.Location = new Point(93, 273);
+            txtName.Location = new Point(106, 364);
+            txtName.Margin = new Padding(3, 4, 3, 4);
             txtName.Name = "txtName";
-            txtName.Size = new Size(130, 23);
+            txtName.Size = new Size(148, 27);
             txtName.TabIndex = 13;
             // 
             // RegisterControl
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(txtName);
             Controls.Add(label4);
@@ -126,9 +132,10 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(btnRegister);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "RegisterControl";
-            Padding = new Padding(25);
-            Size = new Size(314, 417);
+            Padding = new Padding(29, 33, 29, 33);
+            Size = new Size(359, 556);
             ResumeLayout(false);
             PerformLayout();
         }

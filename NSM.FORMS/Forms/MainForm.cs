@@ -274,5 +274,30 @@ namespace NSM.FORMS.Forms
             LoadGroups();
 
         }
+
+        private void lbPhoto_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbPhoto_Click_1(object sender, EventArgs e)
+        {
+            var UserProfile = new UserProfile();
+            if (UserProfile.ShowDialog() == DialogResult.OK)
+            {
+                this.Name = UserProfile.txtName.Text;
+                this.lbName.Text = this.Name;
+            }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbName_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

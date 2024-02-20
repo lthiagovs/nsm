@@ -15,7 +15,7 @@ namespace NSM.FORMS.Forms
 
         private void OpenMainForm(string LoginData, string PasswordData)
         {
-            Application.Run(new MainForm(LoginData,PasswordData));
+            Application.Run(new MainForm(LoginData, PasswordData));
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -26,13 +26,13 @@ namespace NSM.FORMS.Forms
             messagePackage.Informations.Add(txtLogin.Text);
             messagePackage.Informations.Add(txtPassword.Text);
             messagePackage.MessageType = MessageType.Message_GetUser;
-            Client.Send(messagePackage); 
+            Client.Send(messagePackage);
 
             MessagePackage Message = Client.Listen();
 
-            if(Message.MessageType == MessageType.Message_Confirmation)
+            if (Message.MessageType == MessageType.Message_Confirmation)
             {
-                AccountForm Parent = (AccountForm) this.Parent.Parent;
+                AccountForm Parent = (AccountForm)this.Parent.Parent;
                 Parent.Close();
 
                 MessageBox.Show("Logado com sucesso.");
@@ -40,7 +40,7 @@ namespace NSM.FORMS.Forms
                 MainFormThread.SetApartmentState(ApartmentState.STA);
                 MainFormThread.Start();
             }
-            else if(Message.MessageType == MessageType.Message_Negation)
+            else if (Message.MessageType == MessageType.Message_Negation)
             {
                 MessageBox.Show("Usuario ou senha incorretos.");
             }
@@ -50,6 +50,11 @@ namespace NSM.FORMS.Forms
             }
 
 
+
+        }
+
+        private void LoginControl_Load(object sender, EventArgs e)
+        {
 
         }
     }
