@@ -46,6 +46,7 @@ namespace NSM.SERVER.CORE
                 catch
                 {
                     return getUser;
+                    // Comentário legal
                 }
 
             }
