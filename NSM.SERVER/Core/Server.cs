@@ -28,11 +28,11 @@ namespace NSM.SERVER.CORE
 
         //Messages to send to clients
         private static List<MessagePackage> ClientMessages;
+
         private static int ServerMessages_Count = 0;
         private static int ClientMessages_Count = 0;
         private static int ExecutedOperations = 0;
         private static int WrongPackageReceived = 0;
-
 
         //Start the server
         public static void Start()
@@ -138,6 +138,7 @@ namespace NSM.SERVER.CORE
         }
 
         //Reads Message Packages and take decisions
+        // !![COMPLEX]!! Message_GetFriendChatMessages !![COMPLEX]!! O(n)
         public static void Execute()
         {
             if (ServerMessages_Count != ServerMessages.Count)
@@ -148,6 +149,7 @@ namespace NSM.SERVER.CORE
 
                 try
                 {
+
                     //Operations
                     if (Message.MessageType == MessageType.Message_CreateUser)
                     {
@@ -219,7 +221,68 @@ namespace NSM.SERVER.CORE
                         Chat chat = Database.GetLastChat();
                         Database.BoundChat(chat.Id, Convert.ToInt32(Message.Informations[0]));
                     }
+                    else if (Message.MessageType == MessageType.Message_GetFriendChatMessages)
+                    {
 
+                        Chat chat = Database.GetFriendChat(Convert.ToInt32(Message.Informations[0]), Convert.ToInt32(Message.Informations[1]));
+                        MessagePackage Send = new MessagePackage();
+                        Send.ClientId = Message.ClientId;
+                        Send.MessageType = MessageType.Message_Confirmation;
+                        Send.Informations = new List<string>();
+                        List<Message> ObjMessages = new List<Message>();
+                        ObjMessages = Database.GetMessages(chat.Id);
+                        //Add message string to Send.Informations
+                        Send.Informations.Add(chat.Id + "");
+                        foreach(Message message in  ObjMessages)
+                        {
+                            Send.Informations.Add(message.Content);
+                        }
+                        ClientMessages.Add(Send);
+
+                    }
+                    else if (Message.MessageType == MessageType.Message_SendMessage)
+                    {
+                        Database.CreateMessage(Message.Informations[1],Convert.ToInt32(Message.Informations[0]));
+                    }
+                    else if(Message.MessageType == MessageType.Message_GetChatMessages)
+                    {
+                        List<Message> messages = Database.GetMessages(Convert.ToInt32(Message.Informations[0]));
+                        MessagePackage Send = new MessagePackage();
+                        Send.MessageType = MessageType.Message_Confirmation;
+                        Send.ClientId = Message.ClientId;
+                        Send.Informations = new List<string>();
+
+                        foreach (Message message in messages)
+                        {
+                            Send.Informations.Add(message.Content);
+                        }
+                        ClientMessages.Add(Send);
+
+                    }
+                    else if (Message.MessageType == MessageType.Message_GetGroups)
+                    {
+
+                        List<Chat> Groups = Database.GetGroups(Message.ClientId);
+                        MessagePackage Send = new MessagePackage();
+                        Send.MessageType = MessageType.Message_Confirmation;
+                        Send.ClientId = Message.ClientId;
+                        Send.Informations = new List<string>();
+
+                        foreach(Chat chat in Groups)
+                        {
+                            Send.Informations.Add(chat.Name);
+                        }
+
+                        ClientMessages.Add(Send);
+
+
+                    }
+                    else if (Message.MessageType == MessageType.Message_DeleteUser)
+                    {
+                        Database.DeleteUser(Message.Informations[0], Message.Informations[1]);
+                        Confirmation(Message.ClientId);
+
+                    }
                     //Operations
 
                 }

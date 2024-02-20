@@ -19,7 +19,6 @@ namespace NSM.FORMS.CORE
             ClientReader = new BinaryReader(SocketStream);
             ClientWriter = new BinaryWriter(SocketStream);
 
-
         }
 
         public static void Close()

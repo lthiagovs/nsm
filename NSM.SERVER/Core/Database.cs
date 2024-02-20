@@ -1,5 +1,6 @@
 ﻿using NSM.SERVER.Database;
 using NSM.SERVER.Models;
+using System.Text.RegularExpressions;
 
 namespace NSM.SERVER.CORE
 {
@@ -389,6 +390,36 @@ namespace NSM.SERVER.CORE
 
             }
 
+        }
+
+        //**Very complex!!**// O(x) //**Very complex!!**//
+        public static List<Chat> GetGroups(int UserId)
+        {
+            List<Chat> Groups = new List<Chat>();
+
+
+            using (DatabaseContext db = new DatabaseContext())
+            {
+
+                //Get user chats
+                List<ChatUser> UserChats = db.ChatUser.Where(x => x.UserId == UserId).ToList();
+
+                //Get all user groups
+                foreach(ChatUser chatUser in UserChats)
+                {
+                    try
+                    {
+                        Groups.Add(db.Chat.Single(x => x.Id == chatUser.ChatId && !(x.Name.Equals("FriendChat")) ));
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+
+
+            }
+            return Groups;
         }
 
     }

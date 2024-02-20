@@ -11,6 +11,12 @@
         Message_Confirmation,
         Message_Negation,
         Message_CreateFriendChat,
+        Message_GetFriendChat,
+        Message_GetFriendChatMessages,
+        Message_SendMessage,
+        Message_GetChatMessages,
+        Message_GetGroups,
+        Message_DeleteUser
 
     }
 

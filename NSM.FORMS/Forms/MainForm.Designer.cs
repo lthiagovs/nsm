@@ -37,12 +37,13 @@
             label1 = new Label();
             pnFriends = new Panel();
             panel3 = new Panel();
-            panel5 = new Panel();
-            button2 = new Button();
-            button1 = new Button();
-            textBox1 = new TextBox();
-            panel7 = new Panel();
+            pnMessages = new Panel();
+            btnUpdateMessages = new Button();
+            btnSendMessage = new Button();
+            txtMessageContent = new TextBox();
+            pnGroups = new Panel();
             panel2 = new Panel();
+            btnUpdateGroups = new Button();
             label2 = new Label();
             panel1.SuspendLayout();
             panel6.SuspendLayout();
@@ -133,66 +134,79 @@
             // panel3
             // 
             panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Controls.Add(panel5);
-            panel3.Controls.Add(button2);
-            panel3.Controls.Add(button1);
-            panel3.Controls.Add(textBox1);
+            panel3.Controls.Add(pnMessages);
+            panel3.Controls.Add(btnUpdateMessages);
+            panel3.Controls.Add(btnSendMessage);
+            panel3.Controls.Add(txtMessageContent);
             panel3.Dock = DockStyle.Fill;
             panel3.Location = new Point(110, 0);
             panel3.Name = "panel3";
             panel3.Size = new Size(580, 450);
             panel3.TabIndex = 2;
             // 
-            // panel5
+            // pnMessages
             // 
-            panel5.Location = new Point(5, 11);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(568, 372);
-            panel5.TabIndex = 3;
+            pnMessages.AutoScroll = true;
+            pnMessages.Location = new Point(5, 11);
+            pnMessages.Name = "pnMessages";
+            pnMessages.Size = new Size(568, 372);
+            pnMessages.TabIndex = 3;
             // 
-            // button2
+            // btnUpdateMessages
             // 
-            button2.Location = new Point(507, 389);
-            button2.Name = "button2";
-            button2.Size = new Size(30, 30);
-            button2.TabIndex = 2;
-            button2.UseVisualStyleBackColor = true;
+            btnUpdateMessages.Location = new Point(507, 389);
+            btnUpdateMessages.Name = "btnUpdateMessages";
+            btnUpdateMessages.Size = new Size(30, 30);
+            btnUpdateMessages.TabIndex = 2;
+            btnUpdateMessages.UseVisualStyleBackColor = true;
+            btnUpdateMessages.Click += btnUpdateMessages_Click;
             // 
-            // button1
+            // btnSendMessage
             // 
-            button1.Location = new Point(543, 389);
-            button1.Name = "button1";
-            button1.Size = new Size(30, 30);
-            button1.TabIndex = 1;
-            button1.UseVisualStyleBackColor = true;
+            btnSendMessage.Location = new Point(543, 389);
+            btnSendMessage.Name = "btnSendMessage";
+            btnSendMessage.Size = new Size(30, 30);
+            btnSendMessage.TabIndex = 1;
+            btnSendMessage.UseVisualStyleBackColor = true;
+            btnSendMessage.Click += btnSendMessage_Click;
             // 
-            // textBox1
+            // txtMessageContent
             // 
-            textBox1.Dock = DockStyle.Bottom;
-            textBox1.Location = new Point(0, 425);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(578, 23);
-            textBox1.TabIndex = 0;
+            txtMessageContent.Dock = DockStyle.Bottom;
+            txtMessageContent.Location = new Point(0, 425);
+            txtMessageContent.Name = "txtMessageContent";
+            txtMessageContent.Size = new Size(578, 23);
+            txtMessageContent.TabIndex = 0;
             // 
-            // panel7
+            // pnGroups
             // 
-            panel7.BorderStyle = BorderStyle.FixedSingle;
-            panel7.Location = new Point(3, 33);
-            panel7.Name = "panel7";
-            panel7.Size = new Size(102, 412);
-            panel7.TabIndex = 0;
+            pnGroups.BorderStyle = BorderStyle.FixedSingle;
+            pnGroups.Location = new Point(3, 33);
+            pnGroups.Name = "pnGroups";
+            pnGroups.Size = new Size(102, 412);
+            pnGroups.TabIndex = 0;
             // 
             // panel2
             // 
             panel2.BackColor = SystemColors.ActiveCaption;
             panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(btnUpdateGroups);
             panel2.Controls.Add(label2);
-            panel2.Controls.Add(panel7);
+            panel2.Controls.Add(pnGroups);
             panel2.Dock = DockStyle.Right;
             panel2.Location = new Point(690, 0);
             panel2.Name = "panel2";
             panel2.Size = new Size(110, 450);
             panel2.TabIndex = 1;
+            // 
+            // btnUpdateGroups
+            // 
+            btnUpdateGroups.Location = new Point(59, 7);
+            btnUpdateGroups.Name = "btnUpdateGroups";
+            btnUpdateGroups.Size = new Size(30, 23);
+            btnUpdateGroups.TabIndex = 5;
+            btnUpdateGroups.UseVisualStyleBackColor = true;
+            btnUpdateGroups.Click += btnUpdateGroups_Click;
             // 
             // label2
             // 
@@ -211,6 +225,9 @@
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "NSM";
@@ -232,12 +249,12 @@
         private Label label1;
         private Panel panel4;
         private PictureBox lbPhoto;
-        private Button button2;
-        private Button button1;
-        private TextBox textBox1;
-        private Panel panel5;
+        private Button btnUpdateMessages;
+        private Button btnSendMessage;
+        private TextBox txtMessageContent;
+        private Panel pnMessages;
         private Panel pnFriends;
-        private Panel panel7;
+        private Panel pnGroups;
         private Panel panel2;
         private Label label2;
         public Label lbName;
@@ -245,5 +262,6 @@
         public string PasswordData;
         private Button btnSearchFriends;
         private Panel panel6;
+        private Button btnUpdateGroups;
     }
 }
