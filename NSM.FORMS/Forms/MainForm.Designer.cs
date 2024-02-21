@@ -41,15 +41,11 @@
             btnUpdateMessages = new Button();
             btnSendMessage = new Button();
             txtMessageContent = new TextBox();
-            pnGroups = new Panel();
             panel2 = new Panel();
-            btnUpdateGroups = new Button();
-            label2 = new Label();
             panel1.SuspendLayout();
             panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)lbPhoto).BeginInit();
             panel3.SuspendLayout();
-            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -60,9 +56,8 @@
             panel1.Controls.Add(pnFriends);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(125, 600);
+            panel1.Size = new Size(110, 450);
             panel1.TabIndex = 0;
             // 
             // panel6
@@ -74,9 +69,8 @@
             panel6.Controls.Add(label1);
             panel6.Dock = DockStyle.Top;
             panel6.Location = new Point(0, 0);
-            panel6.Margin = new Padding(3, 4, 3, 4);
             panel6.Name = "panel6";
-            panel6.Size = new Size(123, 239);
+            panel6.Size = new Size(108, 179);
             panel6.TabIndex = 6;
             // 
             // lbPhoto
@@ -84,10 +78,9 @@
             lbPhoto.BackColor = SystemColors.ControlLightLight;
             lbPhoto.BorderStyle = BorderStyle.FixedSingle;
             lbPhoto.InitialImage = null;
-            lbPhoto.Location = new Point(3, 4);
-            lbPhoto.Margin = new Padding(3, 4, 3, 4);
+            lbPhoto.Location = new Point(3, 3);
             lbPhoto.Name = "lbPhoto";
-            lbPhoto.Size = new Size(114, 114);
+            lbPhoto.Size = new Size(100, 86);
             lbPhoto.SizeMode = PictureBoxSizeMode.StretchImage;
             lbPhoto.TabIndex = 0;
             lbPhoto.TabStop = false;
@@ -95,10 +88,9 @@
             // 
             // btnSearchFriends
             // 
-            btnSearchFriends.Location = new Point(3, 196);
-            btnSearchFriends.Margin = new Padding(3, 4, 3, 4);
+            btnSearchFriends.Location = new Point(3, 147);
             btnSearchFriends.Name = "btnSearchFriends";
-            btnSearchFriends.Size = new Size(86, 31);
+            btnSearchFriends.Size = new Size(75, 23);
             btnSearchFriends.TabIndex = 5;
             btnSearchFriends.Text = "Buscar";
             btnSearchFriends.UseVisualStyleBackColor = true;
@@ -107,9 +99,9 @@
             // lbName
             // 
             lbName.AutoSize = true;
-            lbName.Location = new Point(3, 141);
+            lbName.Location = new Point(3, 106);
             lbName.Name = "lbName";
-            lbName.Size = new Size(58, 20);
+            lbName.Size = new Size(47, 15);
             lbName.TabIndex = 1;
             lbName.Text = "_name_";
             lbName.Click += lbName_Click;
@@ -117,18 +109,17 @@
             // panel4
             // 
             panel4.BackColor = SystemColors.ActiveCaptionText;
-            panel4.Location = new Point(3, 165);
-            panel4.Margin = new Padding(3, 4, 3, 4);
+            panel4.Location = new Point(3, 124);
             panel4.Name = "panel4";
-            panel4.Size = new Size(117, 3);
+            panel4.Size = new Size(102, 2);
             panel4.TabIndex = 2;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(3, 172);
+            label1.Location = new Point(3, 129);
             label1.Name = "label1";
-            label1.Size = new Size(63, 20);
+            label1.Size = new Size(51, 15);
             label1.TabIndex = 3;
             label1.Text = "Amigos:";
             // 
@@ -136,10 +127,9 @@
             // 
             pnFriends.AutoScroll = true;
             pnFriends.Dock = DockStyle.Bottom;
-            pnFriends.Location = new Point(0, 247);
-            pnFriends.Margin = new Padding(3, 4, 3, 4);
+            pnFriends.Location = new Point(0, 185);
             pnFriends.Name = "pnFriends";
-            pnFriends.Size = new Size(123, 351);
+            pnFriends.Size = new Size(108, 263);
             pnFriends.TabIndex = 4;
             // 
             // panel3
@@ -150,37 +140,33 @@
             panel3.Controls.Add(btnSendMessage);
             panel3.Controls.Add(txtMessageContent);
             panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(125, 0);
-            panel3.Margin = new Padding(3, 4, 3, 4);
+            panel3.Location = new Point(110, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(664, 600);
+            panel3.Size = new Size(580, 450);
             panel3.TabIndex = 2;
             // 
             // pnMessages
             // 
             pnMessages.AutoScroll = true;
-            pnMessages.Location = new Point(6, 15);
-            pnMessages.Margin = new Padding(3, 4, 3, 4);
+            pnMessages.Location = new Point(5, 11);
             pnMessages.Name = "pnMessages";
-            pnMessages.Size = new Size(649, 496);
+            pnMessages.Size = new Size(568, 372);
             pnMessages.TabIndex = 3;
             // 
             // btnUpdateMessages
             // 
-            btnUpdateMessages.Location = new Point(556, 519);
-            btnUpdateMessages.Margin = new Padding(3, 4, 3, 4);
+            btnUpdateMessages.Location = new Point(486, 389);
             btnUpdateMessages.Name = "btnUpdateMessages";
-            btnUpdateMessages.Size = new Size(40, 40);
+            btnUpdateMessages.Size = new Size(35, 30);
             btnUpdateMessages.TabIndex = 2;
             btnUpdateMessages.UseVisualStyleBackColor = true;
             btnUpdateMessages.Click += btnUpdateMessages_Click;
             // 
             // btnSendMessage
             // 
-            btnSendMessage.Location = new Point(602, 519);
-            btnSendMessage.Margin = new Padding(3, 4, 3, 4);
+            btnSendMessage.Location = new Point(527, 389);
             btnSendMessage.Name = "btnSendMessage";
-            btnSendMessage.Size = new Size(40, 40);
+            btnSendMessage.Size = new Size(35, 30);
             btnSendMessage.TabIndex = 1;
             btnSendMessage.UseVisualStyleBackColor = true;
             btnSendMessage.Click += btnSendMessage_Click;
@@ -188,63 +174,30 @@
             // txtMessageContent
             // 
             txtMessageContent.Dock = DockStyle.Bottom;
-            txtMessageContent.Location = new Point(0, 571);
-            txtMessageContent.Margin = new Padding(3, 4, 3, 4);
+            txtMessageContent.Location = new Point(0, 425);
             txtMessageContent.Name = "txtMessageContent";
-            txtMessageContent.Size = new Size(662, 27);
+            txtMessageContent.Size = new Size(578, 23);
             txtMessageContent.TabIndex = 0;
-            // 
-            // pnGroups
-            // 
-            pnGroups.BorderStyle = BorderStyle.FixedSingle;
-            pnGroups.Location = new Point(3, 44);
-            pnGroups.Margin = new Padding(3, 4, 3, 4);
-            pnGroups.Name = "pnGroups";
-            pnGroups.Size = new Size(116, 549);
-            pnGroups.TabIndex = 0;
             // 
             // panel2
             // 
             panel2.BackColor = SystemColors.ActiveCaption;
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(btnUpdateGroups);
-            panel2.Controls.Add(label2);
-            panel2.Controls.Add(pnGroups);
             panel2.Dock = DockStyle.Right;
-            panel2.Location = new Point(789, 0);
-            panel2.Margin = new Padding(3, 4, 3, 4);
+            panel2.Location = new Point(690, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(125, 600);
+            panel2.Size = new Size(110, 450);
             panel2.TabIndex = 1;
-            // 
-            // btnUpdateGroups
-            // 
-            btnUpdateGroups.Location = new Point(67, 9);
-            btnUpdateGroups.Margin = new Padding(3, 4, 3, 4);
-            btnUpdateGroups.Name = "btnUpdateGroups";
-            btnUpdateGroups.Size = new Size(34, 31);
-            btnUpdateGroups.TabIndex = 5;
-            btnUpdateGroups.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(6, 20);
-            label2.Name = "label2";
-            label2.Size = new Size(59, 20);
-            label2.TabIndex = 4;
-            label2.Text = "Grupos:";
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(914, 600);
+            ClientSize = new Size(800, 450);
             Controls.Add(panel3);
             Controls.Add(panel2);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Margin = new Padding(3, 4, 3, 4);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "MainForm";
@@ -257,8 +210,6 @@
             ((System.ComponentModel.ISupportInitialize)lbPhoto).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -273,15 +224,12 @@
         private TextBox txtMessageContent;
         private Panel pnMessages;
         private Panel pnFriends;
-        private Panel pnGroups;
         private Panel panel2;
-        private Label label2;
         public Label lbName;
         public string LoginData;
         public string PasswordData;
         private Button btnSearchFriends;
         private Panel panel6;
-        private Button btnUpdateGroups;
         private PictureBox lbPhoto;
     }
 }
