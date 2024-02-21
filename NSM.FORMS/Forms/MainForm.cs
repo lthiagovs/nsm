@@ -438,7 +438,7 @@ namespace NSM.FORMS.Forms
                 MessagePackage Message = new MessagePackage();
                 Message.ClientId = this.Id;
                 Message.Informations = new List<string>();
-                Message.Informations.Add(this.Name);
+                Message.Informations.Add(UserProfile.txtName.Text);
                 Message.MessageType = MessageType.Message_ChangeUserName;
 
                 Client.Send(Message);
