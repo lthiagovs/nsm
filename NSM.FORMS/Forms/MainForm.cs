@@ -1,5 +1,6 @@
 ﻿using NSM.COMMON;
 using NSM.FORMS.CORE;
+using System.Text;
 using System.Xml.Linq;
 
 namespace NSM.FORMS.Forms
@@ -64,7 +65,6 @@ namespace NSM.FORMS.Forms
                     messageControl.lbText.Text = Messages[i];
                     messageControl.Location = new Point(0, messagePosY);
                     messagePosY += 70;
-                    messageControl.pbPhoto.ImageLocation = "";
                     pnMessages.Controls.Add(messageControl);
                 }
 
@@ -187,7 +187,6 @@ namespace NSM.FORMS.Forms
                     //Add friend to interface
                     MessageBox.Show("Amigo: " + SearchFriends.txtName.Text + " encontrado!");
                     FriendControl Friend = new FriendControl(Convert.ToInt32(Received.Informations[0]));
-                    Friend.pbPhoto.ImageLocation = "";
                     Friend.Location = new Point(0, this.FriendListY);
                     FriendListY += Friend.Size.Height;
                     Friend.lbName.Text = SearchFriends.txtName.Text;
@@ -214,6 +213,7 @@ namespace NSM.FORMS.Forms
             }
 
         }
+  
         private void btnSendMessage_Click(object sender, EventArgs e)
         {
             SendMessage(this.CurrentChatId, this.txtMessageContent.Text);
@@ -237,6 +237,26 @@ namespace NSM.FORMS.Forms
             if (response == DialogResult.OK)
             {
                 byte[] PFPByte = File.ReadAllBytes(UserProfile.caminhoDaImagem);
+                MessageBox.Show(PFPByte.LongLength+"");
+
+                //Update Data in Server
+                MessagePackage Message = new MessagePackage();
+                Message.MessageType = MessageType.Message_ChangeProfilePhoto;
+                Message.Informations = new List<string>();
+                //Enconding image bytes in to string
+                Message.Informations.Add(Convert.ToBase64String(PFPByte)) ;
+                Message.ClientId = this.Id;
+
+                //Send and Await
+                Client.Send(Message);
+                MessagePackage Received = Client.Listen();
+
+                if(Received.MessageType != MessageType.Message_Confirmation)
+                {
+                    MessageBox.Show("Erro ao atualizar dados no servidor...");
+                }
+                //Update Data in Server
+
                 UpdatePhotoAndName(UserProfile.txtName.Text, PFPByte);
             }
             else if (response == DialogResult.Yes)
@@ -256,4 +276,6 @@ namespace NSM.FORMS.Forms
 
         }
     }
+    
+
 }

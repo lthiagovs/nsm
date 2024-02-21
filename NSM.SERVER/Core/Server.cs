@@ -54,7 +54,7 @@ namespace NSM.SERVER.CORE
             while (true)
             {
                 //Get Json from Client
-                byte[] ClientMsg = new byte[1024];
+                byte[] ClientMsg = new byte[60000];
                 int size;
                 //If clients disconnect close thread
                 try
@@ -189,9 +189,33 @@ namespace NSM.SERVER.CORE
                         Database.DeleteUser(Message.Informations[0], Message.Informations[1]);
                         Send.MessageType = MessageType.Message_Confirmation;
 
-                    }else if(Message.MessageType == MessageType.Message_ChangeProfilePhoto)
+                    }
+                    else if(Message.MessageType == MessageType.Message_ChangeProfilePhoto)
                     {
+                        //String to bytes
+                        byte[] imageBytes = Convert.FromBase64String(Message.Informations[0]);
 
+                        if (Database.ChangeProfilePhoto(Message.ClientId, imageBytes))
+                        {
+                            Send.MessageType = MessageType.Message_Confirmation;
+                        }
+                        else
+                        {
+                            Send.MessageType = MessageType.Message_Negation;
+                        }
+                    }
+                    else if(Message.MessageType == MessageType.Message_GetProfilePhoto)
+                    {
+                        string photo64 = Database.GetProfilePhoto(Message.ClientId);
+                        if (!photo64.Equals(""))
+                        {
+                            Send.Informations.Add(photo64);
+                            Send.MessageType = MessageType.Message_Confirmation;
+                        }
+                        else
+                        {
+                            Send.MessageType = MessageType.Message_Negation;
+                        }
                     }
                     #endregion
                     //Operate

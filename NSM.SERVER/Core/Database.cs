@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NSM.SERVER.Database;
 using NSM.SERVER.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace NSM.SERVER.CORE
 {
@@ -429,13 +430,16 @@ namespace NSM.SERVER.CORE
                 using (DatabaseContext db = new DatabaseContext())
                 {
                     User user = db.User.Single(x => x.Id == UserId);
-                    user.Photo = @"Photos\"+user.Name+".png";
+                    user.Photo = @"Photos\"+user.Name+".jpg";
                     db.User.Attach(user);
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
 
                     //Save photo
-
+                    if(!File.Exists(user.Photo)) {
+                        File.Create(user.Photo);
+                    }
+                    File.WriteAllBytes(user.Photo, image);
                     //Save photo
 
                 }
@@ -445,6 +449,29 @@ namespace NSM.SERVER.CORE
             {
                 return false;
             }
+        }
+
+        public static string GetProfilePhoto(int UserId)
+        {
+            string photo64 = "";
+
+            try
+            {
+                using(DatabaseContext db = new DatabaseContext())
+                {
+                    User user = db.User.Single(x=>x.Id==UserId);
+
+                    byte[] imgBytes = File.ReadAllBytes(@"Photos\"+user.Name+".jpg");
+                    photo64 = Convert.ToBase64String(imgBytes);
+
+                }
+                return photo64;
+            }
+            catch
+            {
+                return photo64;
+            }
+            
         }
 
     }

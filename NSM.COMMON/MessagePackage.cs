@@ -4,7 +4,6 @@
     public enum MessageType
     {
         Message_WrongFormat,
-        Message_CloseServer,
         Message_CreateUser,
         Message_GetUser,
         Message_SearchUser,     
@@ -15,9 +14,9 @@
         Message_GetFriendChatMessages,
         Message_SendMessage,
         Message_GetChatMessages,
-        Message_GetGroups,
         Message_DeleteUser,
-        Message_ChangeProfilePhoto
+        Message_ChangeProfilePhoto,
+        Message_GetProfilePhoto
 
     }
 

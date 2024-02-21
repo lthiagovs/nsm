@@ -1,4 +1,8 @@
-﻿namespace NSM.FORMS.Forms
+﻿using NSM.COMMON;
+using NSM.FORMS.CORE;
+using System.Security.Cryptography;
+
+namespace NSM.FORMS.Forms
 {
     public partial class FriendControl : UserControl
     {
@@ -6,6 +10,36 @@
         {
             InitializeComponent();
             this.FriendID = FriendId;
+
+            //Request profile photo to server
+            MessagePackage Message = new MessagePackage();
+            Message.ClientId = FriendId;
+            Message.MessageType = MessageType.Message_GetProfilePhoto;
+            Message.Informations = new List<string>();
+
+            Client.Send(Message);
+            MessagePackage Receive = Client.Listen();
+
+            if(Receive.MessageType==MessageType.Message_Confirmation)
+            {
+
+                byte[] imgBytes = Convert.FromBase64String(Receive.Informations[0]);
+                if(!File.Exists(this.FriendID+".jpg"))
+                {
+                    File.Create(this.FriendID + ".jpg").Close() ;
+                }
+                File.WriteAllBytes(this.FriendID + ".jpg", imgBytes);
+                this.pbPhoto.ImageLocation = this.FriendID + ".jpg";
+                this.pbPhoto.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            }
+            else
+            {
+                this.pbPhoto.ImageLocation = "anonymAvatar.jpg";
+                this.pbPhoto.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
+            //Request profile photo to server
+
         }
 
         private int FriendID;
