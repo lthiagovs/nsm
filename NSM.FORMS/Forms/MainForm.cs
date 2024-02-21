@@ -258,7 +258,6 @@ namespace NSM.FORMS.Forms
             if (response == DialogResult.OK)
             {
                 byte[] PFPByte = File.ReadAllBytes(UserProfile.caminhoDaImagem);
-                MessageBox.Show(PFPByte.LongLength+"");
 
                 //Update Data in Server
                 MessagePackage Message = new MessagePackage();
