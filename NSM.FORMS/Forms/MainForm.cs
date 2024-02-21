@@ -29,6 +29,8 @@ namespace NSM.FORMS.Forms
                 Image image = Image.FromStream(ms);
                 lbPhoto.Image = image;
             }
+
+
         }
 
         //Load all messages from a friend chat
@@ -129,9 +131,9 @@ namespace NSM.FORMS.Forms
         {
             bool result = false;
 
-            foreach(FriendControl fc in pnFriends.Controls)
+            foreach (FriendControl fc in pnFriends.Controls)
             {
-                if(fc.lbName.Text.Equals(name))
+                if (fc.lbName.Text.Equals(name))
                 {
                     result = true;
                     break;
@@ -291,66 +293,76 @@ namespace NSM.FORMS.Forms
             SearchFriends.ShowDialog();
             if (SearchFriends.DialogResult == DialogResult.OK)
             {
-                if (!HaveFriend(SearchFriends.txtName.Text))
+
+                if (!SearchFriends.txtName.Text.Equals(this.Name))
                 {
-                    //Search for the friend
-                    MessagePackage Message = new MessagePackage();
-                    Message.MessageType = MessageType.Message_SearchUser;
-                    Message.ClientId = this.Id;
-                    Message.Informations = new List<string>();
-                    Message.Informations.Add(SearchFriends.txtName.Text);
-                    Client.Send(Message);
 
-                    //Wait
-                    MessagePackage Received = Client.Listen();
-
-                    if (Received.MessageType == MessageType.Message_Confirmation)
+                    if (!HaveFriend(SearchFriends.txtName.Text))
                     {
-                        //Add friend to interface
-                        MessageBox.Show("Amigo: " + SearchFriends.txtName.Text + " encontrado!");
-                        FriendControl Friend = new FriendControl(Convert.ToInt32(Received.Informations[0]));
-                        Friend.Location = new Point(0, this.FriendListY);
-                        FriendListY += Friend.Size.Height;
-                        Friend.lbName.Text = SearchFriends.txtName.Text;
-                        pnFriends.Controls.Add(Friend);
+                        //Search for the friend
+                        MessagePackage Message = new MessagePackage();
+                        Message.MessageType = MessageType.Message_SearchUser;
+                        Message.ClientId = this.Id;
+                        Message.Informations = new List<string>();
+                        Message.Informations.Add(SearchFriends.txtName.Text);
+                        Client.Send(Message);
 
-                        //Send Chat Request
-                        MessagePackage ChatMessage = new MessagePackage();
-                        ChatMessage.MessageType = MessageType.Message_CreateFriendChat;
-                        ChatMessage.ClientId = this.Id;
-                        ChatMessage.Informations = new List<string>();
-                        ChatMessage.Informations.Add(Received.Informations[0]);
-                        Client.Send(ChatMessage);
-                        Received = Client.Listen();
-                        if (Received.MessageType != MessageType.Message_Confirmation)
+                        //Wait
+                        MessagePackage Received = Client.Listen();
+
+                        if (Received.MessageType == MessageType.Message_Confirmation)
                         {
-                            MessageBox.Show("Erro interno ao criar chat...");
+                            //Add friend to interface
+                            MessageBox.Show("Amigo: " + SearchFriends.txtName.Text + " encontrado!");
+                            FriendControl Friend = new FriendControl(Convert.ToInt32(Received.Informations[0]));
+                            Friend.Location = new Point(0, this.FriendListY);
+                            FriendListY += Friend.Size.Height;
+                            Friend.lbName.Text = SearchFriends.txtName.Text;
+                            pnFriends.Controls.Add(Friend);
+
+                            //Send Chat Request
+                            MessagePackage ChatMessage = new MessagePackage();
+                            ChatMessage.MessageType = MessageType.Message_CreateFriendChat;
+                            ChatMessage.ClientId = this.Id;
+                            ChatMessage.Informations = new List<string>();
+                            ChatMessage.Informations.Add(Received.Informations[0]);
+                            Client.Send(ChatMessage);
+                            Received = Client.Listen();
+                            if (Received.MessageType != MessageType.Message_Confirmation)
+                            {
+                                MessageBox.Show("Erro interno ao criar chat...");
+                            }
+                            //Save friends in a file
+                            if (!File.Exists("friendlist.bin"))
+                            {
+                                File.Create("friendlist.bin").Close();
+                            }
+                            Stream friendFile = File.Open("friendlist.bin", FileMode.Open);
+                            BinaryWriter writer = new BinaryWriter(friendFile);
+
+                            foreach (FriendControl fc in pnFriends.Controls)
+                            {
+                                writer.Write(fc.lbName.Text);
+                            }
+                            writer.Close();
+                            friendFile.Close();
+
+
                         }
-                        //Save friends in a file
-                        if (!File.Exists("friendlist.bin"))
+                        else
                         {
-                            File.Create("friendlist.bin").Close();
+                            MessageBox.Show("Amigo não encontrado...");
                         }
-                        Stream friendFile = File.Open("friendlist.bin", FileMode.Open);
-                        BinaryWriter writer = new BinaryWriter(friendFile);
-
-                        foreach (FriendControl fc in pnFriends.Controls)
-                        {
-                            writer.Write(fc.lbName.Text);
-                        }
-                        writer.Close();
-                        friendFile.Close();
-
-
                     }
                     else
                     {
-                        MessageBox.Show("Amigo não encontrado...");
+                        MessageBox.Show("Este amigo já está na sua lista...");
                     }
+
                 }
                 else
                 {
-                    MessageBox.Show("Este amigo já está na sua lista...");
+                    MessageBox.Show("Você não pode usar seu propio nome...");
                 }
 
             }
@@ -369,11 +381,6 @@ namespace NSM.FORMS.Forms
         }
 
         private void lbPhoto_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbPhoto_Click_1(object sender, EventArgs e)
         {
             var UserProfile = new UserProfile(this.Name, this.Photo);
             var response = UserProfile.ShowDialog();
@@ -395,31 +402,78 @@ namespace NSM.FORMS.Forms
 
                 if (Received.MessageType != MessageType.Message_Confirmation)
                 {
-                    MessageBox.Show("Erro ao atualizar dados no servidor...");
+                    MessageBox.Show("Erro ao atualizar foto...");
                 }
-                //Update Data in Server
+                else
+                {
+                    UpdatePhotoAndName(this.Name, PFPByte);
+                }
 
-                UpdatePhotoAndName(UserProfile.txtName.Text, PFPByte);
+                //Change user name...
+                Message = new MessagePackage();
+                Message.ClientId = this.Id;
+                Message.Informations = new List<string>();
+                Message.Informations.Add(UserProfile.txtName.Text);
+                Message.MessageType = MessageType.Message_ChangeUserName;
+
+                Client.Send(Message);
+
+                Received = Client.Listen();
+
+                if (Received.MessageType != MessageType.Message_Confirmation)
+                {
+                    MessageBox.Show("Algum usuario ja possui este nome...");
+                }
+                else
+                {
+                    this.Name = UserProfile.txtName.Text;
+                    lbName.Text = this.Name;
+                }
+
+                //Update Data in Server
             }
             else if (response == DialogResult.Yes)
             {
-                this.Name = UserProfile.txtName.Text;
-                lbName.Text = this.Name;
+                //Change user name...
+                MessagePackage Message = new MessagePackage();
+                Message.ClientId = this.Id;
+                Message.Informations = new List<string>();
+                Message.Informations.Add(this.Name);
+                Message.MessageType = MessageType.Message_ChangeUserName;
+
+                Client.Send(Message);
+
+                MessagePackage Received = Client.Listen();
+
+                if (Received.MessageType != MessageType.Message_Confirmation)
+                {
+                    MessageBox.Show("Algum usuario ja possui este nome...");
+                }
+                else
+                {
+                    this.Name = UserProfile.txtName.Text;
+                    lbName.Text = this.Name;
+                }
+
             }
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void lbName_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //Save friends in a file
+            if (!File.Exists("friendlist.bin"))
+            {
+                File.Create("friendlist.bin").Close();
+            }
+            Stream friendFile = File.Open("friendlist.bin", FileMode.Open);
+            BinaryWriter writer = new BinaryWriter(friendFile);
+
+            foreach (FriendControl fc in pnFriends.Controls)
+            {
+                writer.Write(fc.lbName.Text);
+            }
+            writer.Close();
+            friendFile.Close();
         }
     }
 

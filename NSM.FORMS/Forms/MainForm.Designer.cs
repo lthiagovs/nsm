@@ -85,7 +85,7 @@
             lbPhoto.SizeMode = PictureBoxSizeMode.StretchImage;
             lbPhoto.TabIndex = 0;
             lbPhoto.TabStop = false;
-            lbPhoto.Click += lbPhoto_Click_1;
+            lbPhoto.Click += lbPhoto_Click;
             // 
             // btnSearchFriends
             // 
@@ -108,7 +108,6 @@
             lbName.Size = new Size(47, 15);
             lbName.TabIndex = 1;
             lbName.Text = "_name_";
-            lbName.Click += lbName_Click;
             // 
             // panel4
             // 
@@ -206,7 +205,6 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "NSM";
             FormClosed += MainForm_FormClosed;
-            Load += MainForm_Load;
             panel1.ResumeLayout(false);
             panel6.ResumeLayout(false);
             panel6.PerformLayout();

@@ -190,7 +190,7 @@ namespace NSM.SERVER.CORE
                         Send.MessageType = MessageType.Message_Confirmation;
 
                     }
-                    else if(Message.MessageType == MessageType.Message_ChangeProfilePhoto)
+                    else if (Message.MessageType == MessageType.Message_ChangeProfilePhoto)
                     {
                         //String to bytes
                         byte[] imageBytes = Convert.FromBase64String(Message.Informations[0]);
@@ -204,13 +204,38 @@ namespace NSM.SERVER.CORE
                             Send.MessageType = MessageType.Message_Negation;
                         }
                     }
-                    else if(Message.MessageType == MessageType.Message_GetProfilePhoto)
+                    else if (Message.MessageType == MessageType.Message_GetProfilePhoto)
                     {
                         string photo64 = Database.GetProfilePhoto(Message.ClientId);
                         if (!photo64.Equals(""))
                         {
                             Send.Informations.Add(photo64);
                             Send.MessageType = MessageType.Message_Confirmation;
+                        }
+                        else
+                        {
+                            Send.MessageType = MessageType.Message_Negation;
+                        }
+                    }
+                    else if (Message.MessageType == MessageType.Message_ChangeUserName)
+                    {
+                        if (!Database.UserExist(Message.Informations[0]))
+                        {
+                            string oldName = Database.ChangeUserName(Message.ClientId, Message.Informations[0]);
+                            if (!oldName.Equals(""))
+                            {
+                                Send.MessageType = MessageType.Message_Confirmation;
+                                //Update photo .jpg
+                                if (File.Exists(@"Photos\" + oldName + ".jpg"))
+                                {
+                                    File.Move(@"Photos\" + oldName + ".jpg", @"Photos\" + Message.Informations[0] + ".jpg");
+                                }
+
+                            }
+                            else
+                            {
+                                Send.MessageType = MessageType.Message_Negation;
+                            }
                         }
                         else
                         {

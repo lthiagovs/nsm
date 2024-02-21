@@ -450,7 +450,6 @@ namespace NSM.SERVER.CORE
                 return false;
             }
         }
-
         public static string GetProfilePhoto(int UserId)
         {
             string photo64 = "";
@@ -472,6 +471,29 @@ namespace NSM.SERVER.CORE
                 return photo64;
             }
             
+        }
+        public static string ChangeUserName(int UserId, string NewName)
+        {
+            string oldName = "";
+            try
+            {
+                using(DatabaseContext db = new DatabaseContext())
+                {
+
+                    User user = db.User.Single(x => x.Id == UserId);
+                    oldName = user.Name;
+                    user.Name = NewName;
+                    db.User.Attach(user);
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                }
+                return oldName;
+            }
+            catch
+            {
+                return oldName;
+            }
         }
 
     }
