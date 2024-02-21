@@ -161,6 +161,27 @@ namespace NSM.FORMS.Forms
 
             //Ready to go
 
+            //Get Profile Image
+            Message = new MessagePackage();
+            Message.ClientId = this.Id;
+            Message.MessageType = MessageType.Message_GetProfilePhoto;
+            Message.Informations = new List<string>();
+            Client.Send(Message);
+
+            Received = Client.Listen();
+
+            if (Received.MessageType == MessageType.Message_Confirmation)
+            {
+
+                byte[] imgBytes = Convert.FromBase64String(Received.Informations[0]);
+                using (MemoryStream ms = new MemoryStream(imgBytes))
+                {
+                    Image image = Image.FromStream(ms);
+                    this.lbPhoto.Image = image;
+                }
+
+
+            }
 
         }
 

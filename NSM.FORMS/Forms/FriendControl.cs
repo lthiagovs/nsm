@@ -18,12 +18,12 @@ namespace NSM.FORMS.Forms
             Message.Informations = new List<string>();
 
             Client.Send(Message);
-            MessagePackage Receive = Client.Listen();
+            MessagePackage Received = Client.Listen();
 
-            if(Receive.MessageType==MessageType.Message_Confirmation)
+            if(Received.MessageType==MessageType.Message_Confirmation)
             {
 
-                byte[] imgBytes = Convert.FromBase64String(Receive.Informations[0]);
+                byte[] imgBytes = Convert.FromBase64String(Received.Informations[0]);
                 if(!File.Exists(this.FriendID+".jpg"))
                 {
                     File.Create(this.FriendID + ".jpg").Close() ;
