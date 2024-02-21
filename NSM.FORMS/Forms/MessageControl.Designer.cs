@@ -30,6 +30,7 @@
         {
             pbPhoto = new PictureBox();
             lbText = new Label();
+            lbName = new Label();
             ((System.ComponentModel.ISupportInitialize)pbPhoto).BeginInit();
             SuspendLayout();
             // 
@@ -44,23 +45,35 @@
             // 
             // lbText
             // 
-            lbText.Location = new Point(69, 3);
+            lbText.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbText.Location = new Point(69, 18);
             lbText.Name = "lbText";
-            lbText.Size = new Size(494, 60);
+            lbText.Size = new Size(343, 45);
             lbText.TabIndex = 1;
             lbText.Text = "_message_";
+            // 
+            // lbName
+            // 
+            lbName.AutoSize = true;
+            lbName.ForeColor = Color.FromArgb(0, 192, 0);
+            lbName.Location = new Point(69, 3);
+            lbName.Name = "lbName";
+            lbName.Size = new Size(47, 15);
+            lbName.TabIndex = 2;
+            lbName.Text = "_name_";
             // 
             // MessageControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BorderStyle = BorderStyle.FixedSingle;
+            Controls.Add(lbName);
             Controls.Add(lbText);
             Controls.Add(pbPhoto);
             Name = "MessageControl";
-            Size = new Size(566, 68);
+            Size = new Size(415, 70);
             ((System.ComponentModel.ISupportInitialize)pbPhoto).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -68,5 +81,6 @@
         public PictureBox pbPhoto;
         public Label lbText;
         private Label label1;
+        public Label lbName;
     }
 }

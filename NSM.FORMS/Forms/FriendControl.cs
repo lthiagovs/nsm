@@ -42,7 +42,7 @@ namespace NSM.FORMS.Forms
 
         }
 
-        private int FriendID;
+        public int FriendID;
 
         private void OpenChat()
         {
