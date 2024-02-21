@@ -16,6 +16,7 @@
             {
                 MainForm parent = (MainForm)this.Parent.Parent.Parent;
                 parent.LoadMessages(FriendID);
+                parent.CurrentFriendId = FriendID;
 
             }
             catch(Exception ex)

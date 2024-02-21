@@ -55,7 +55,19 @@ namespace NSM.SERVER.CORE
             {
                 //Get Json from Client
                 byte[] ClientMsg = new byte[1024];
-                int size = Client.Receive(ClientMsg);
+                int size;
+                //If clients disconnect close thread
+                try
+                {
+                    size = Client.Receive(ClientMsg);
+                }
+                catch
+                {
+                    break;
+
+                }
+
+
                 string json = (Encoding.ASCII.GetString(ClientMsg, 0, size));
                 MessagePackage Message;
                 MessagePackage Send = new MessagePackage();
@@ -129,6 +141,7 @@ namespace NSM.SERVER.CORE
                         Database.CreateChat("FriendChat", Message.ClientId);
                         Chat chat = Database.GetLastChat();
                         Database.BoundChat(chat.Id, Convert.ToInt32(Message.Informations[0]));
+                        Send.MessageType = MessageType.Message_Confirmation;
                     }
                     else if (Message.MessageType == MessageType.Message_GetFriendChatMessages)
                     {
@@ -149,7 +162,14 @@ namespace NSM.SERVER.CORE
                     }
                     else if (Message.MessageType == MessageType.Message_SendMessage)
                     {
-                        Database.CreateMessage(Message.Informations[1], Convert.ToInt32(Message.Informations[0]));
+                        if(Database.CreateMessage(Message.Informations[1], Convert.ToInt32(Message.Informations[0])))
+                        {
+                            Send.MessageType = MessageType.Message_Confirmation;
+                        }
+                        else
+                        {
+                            Send.MessageType = MessageType.Message_Negation;
+                        }
                     }
                     else if (Message.MessageType == MessageType.Message_GetChatMessages)
                     {

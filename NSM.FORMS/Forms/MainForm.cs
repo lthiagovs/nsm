@@ -8,9 +8,9 @@ namespace NSM.FORMS.Forms
     {
 
         private int Id { get; set; }
+        public int CurrentFriendId { get; set; }
         public int CurrentChatId { get; set; }
         private string Name { get; set; }
-
         private string Photo { get; set; }
 
         private List<string> Messages { get; set; }
@@ -41,9 +41,7 @@ namespace NSM.FORMS.Forms
                 //+70
                 int messagePosY = 0;
                 pnMessages.Controls.Clear();
-
-                this.CurrentChatId = Convert.ToInt32(Received.Informations[0]);
-
+                CurrentChatId = Convert.ToInt32(Received.Informations[0]);
                 for (int i = 1; i < Messages.Count; i++)
                 {
                     MessageControl messageControl = new MessageControl();
@@ -53,6 +51,11 @@ namespace NSM.FORMS.Forms
                     messageControl.pbPhoto.ImageLocation = "";
                     pnMessages.Controls.Add(messageControl);
                 }
+
+                //Scroll the bar
+                pnMessages.VerticalScroll.Value = pnMessages.VerticalScroll.Maximum;
+                pnMessages.PerformLayout();
+                this.txtMessageContent.Text = "";
 
             }
             else
@@ -82,6 +85,13 @@ namespace NSM.FORMS.Forms
                     Message.Informations.Add(Content);
                     Client.Send(Message);
 
+                    MessagePackage Received = Client.Listen();
+                    if(Received.MessageType != MessageType.Message_Confirmation)
+                    {
+                        MessageBox.Show("Falha ao enviar mensagem");
+
+                    }
+
                 }
 
             }
@@ -101,6 +111,7 @@ namespace NSM.FORMS.Forms
             InitializeComponent();
 
             this.Messages = new List<string>();
+            this.CurrentFriendId = -1;
             this.CurrentChatId = -1;
 
             //Ask to server all informations
@@ -170,6 +181,11 @@ namespace NSM.FORMS.Forms
                     ChatMessage.Informations = new List<string>();
                     ChatMessage.Informations.Add(Received.Informations[0]);
                     Client.Send(ChatMessage);
+                    Received = Client.Listen();
+                    if(Received.MessageType!=MessageType.Message_Confirmation)
+                    {
+                        MessageBox.Show("Erro interno ao criar chat...");
+                    }
                 }
                 else
                 {
@@ -183,12 +199,12 @@ namespace NSM.FORMS.Forms
         private void btnSendMessage_Click(object sender, EventArgs e)
         {
             SendMessage(this.CurrentChatId, this.txtMessageContent.Text);
-            LoadMessages(this.CurrentChatId);
+            LoadMessages(this.CurrentFriendId);
         }
 
         private void btnUpdateMessages_Click(object sender, EventArgs e)
         {
-            LoadMessages(this.CurrentChatId);
+            LoadMessages(this.CurrentFriendId);
         }
     }
 }
