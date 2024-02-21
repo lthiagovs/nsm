@@ -79,6 +79,7 @@
             txtPassword.Name = "txtPassword";
             txtPassword.Size = new Size(148, 27);
             txtPassword.TabIndex = 4;
+            txtPassword.KeyPress += txtPassword_KeyPress;
             // 
             // LoginControl
             // 

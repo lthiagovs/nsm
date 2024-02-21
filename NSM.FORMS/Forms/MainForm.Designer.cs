@@ -81,12 +81,14 @@
             // 
             // lbPhoto
             // 
-            lbPhoto.BackColor = SystemColors.ButtonFace;
+            lbPhoto.BackColor = SystemColors.ControlLightLight;
             lbPhoto.BorderStyle = BorderStyle.FixedSingle;
+            lbPhoto.InitialImage = null;
             lbPhoto.Location = new Point(3, 4);
             lbPhoto.Margin = new Padding(3, 4, 3, 4);
             lbPhoto.Name = "lbPhoto";
             lbPhoto.Size = new Size(114, 114);
+            lbPhoto.SizeMode = PictureBoxSizeMode.StretchImage;
             lbPhoto.TabIndex = 0;
             lbPhoto.TabStop = false;
             lbPhoto.Click += lbPhoto_Click_1;
@@ -165,20 +167,20 @@
             // 
             // btnUpdateMessages
             // 
-            btnUpdateMessages.Location = new Point(579, 519);
+            btnUpdateMessages.Location = new Point(556, 519);
             btnUpdateMessages.Margin = new Padding(3, 4, 3, 4);
             btnUpdateMessages.Name = "btnUpdateMessages";
-            btnUpdateMessages.Size = new Size(34, 40);
+            btnUpdateMessages.Size = new Size(40, 40);
             btnUpdateMessages.TabIndex = 2;
             btnUpdateMessages.UseVisualStyleBackColor = true;
             btnUpdateMessages.Click += btnUpdateMessages_Click;
             // 
             // btnSendMessage
             // 
-            btnSendMessage.Location = new Point(621, 519);
+            btnSendMessage.Location = new Point(602, 519);
             btnSendMessage.Margin = new Padding(3, 4, 3, 4);
             btnSendMessage.Name = "btnSendMessage";
-            btnSendMessage.Size = new Size(34, 40);
+            btnSendMessage.Size = new Size(40, 40);
             btnSendMessage.TabIndex = 1;
             btnSendMessage.UseVisualStyleBackColor = true;
             btnSendMessage.Click += btnSendMessage_Click;

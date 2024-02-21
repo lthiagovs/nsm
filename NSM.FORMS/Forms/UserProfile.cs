@@ -1,25 +1,41 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Windows.Forms;
 
 namespace NSM.FORMS.Forms
 {
     public partial class UserProfile : Form
     {
-        public UserProfile()
+        public string caminhoDaImagem;
+        public UserProfile(string name, byte[] photoInBytes)
         {
             InitializeComponent();
+            txtName.Text = name;
+            if (photoInBytes != null)
+            {
+                using (MemoryStream ms = new MemoryStream(photoInBytes))
+                {
+                    Image image = Image.FromStream(ms);
+                    pcbProfilePicture.Image = image;
+                }
+            }
+            else
+            {
+                pcbProfilePicture.ImageLocation = "anonymAvatar.jpg";
+            }
         }
 
         private void UserProfile_Load(object sender, EventArgs e)
         {
-
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -31,14 +47,14 @@ namespace NSM.FORMS.Forms
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = "Arquivos de Imagem|.jpg;.jpeg;.png;.gif;.bmp|Todos os Arquivos|.*";
+                openFileDialog.Filter = "Todos os Arquivos|*.*";
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    string caminhoDaImagem = openFileDialog.FileName;
-
+                    caminhoDaImagem = openFileDialog.FileName;
                     pcbProfilePicture.ImageLocation = caminhoDaImagem;
-                }
+                    // byte[] PFPByte = File.ReadAllBytes(caminhoDaImagem);
+                }   
             }
         }
 
@@ -49,7 +65,13 @@ namespace NSM.FORMS.Forms
 
         private void btnSalvar_Click(object sender, EventArgs e)
         {
-
+            if (caminhoDaImagem != null)
+            {
+                if (!pcbProfilePicture.ImageLocation.Equals("anonymAvatar.jpg"))
+                {
+                    this.DialogResult = DialogResult.OK;
+                }
+            }
         }
     }
 }

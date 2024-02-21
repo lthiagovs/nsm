@@ -62,8 +62,9 @@
             // txtName
             // 
             txtName.Location = new Point(12, 438);
+            txtName.MaxLength = 20;
             txtName.Name = "txtName";
-            txtName.Size = new Size(225, 27);
+            txtName.Size = new Size(188, 27);
             txtName.TabIndex = 2;
             txtName.TextChanged += textBox1_TextChanged;
             // 
@@ -78,7 +79,7 @@
             // 
             // btnSalvar
             // 
-            btnSalvar.DialogResult = DialogResult.OK;
+            btnSalvar.DialogResult = DialogResult.Yes;
             btnSalvar.Location = new Point(309, 436);
             btnSalvar.Name = "btnSalvar";
             btnSalvar.Size = new Size(94, 29);

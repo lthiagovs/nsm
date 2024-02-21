@@ -1,5 +1,6 @@
 ﻿using NSM.COMMON;
 using NSM.FORMS.CORE;
+using System.Xml.Linq;
 
 namespace NSM.FORMS.Forms
 {
@@ -11,13 +12,25 @@ namespace NSM.FORMS.Forms
         private int CurrentChatId { get; set; }
         private string Name { get; set; }
 
-        private string Photo { get; set; }
+        private byte[] Photo { get; set; } = File.ReadAllBytes("anonymAvatar.jpg");
 
         private List<string> Messages { get; set; }
 
         private int FriendListY = 0;
 
         //Load all messages from a friend chat
+
+        public void UpdatePhotoAndName(string name, byte[] imageBytes)
+        {
+            this.Name = name;
+            this.Photo = imageBytes;
+            lbName.Text = this.Name;
+            using (MemoryStream ms = new MemoryStream(imageBytes))
+            {
+                Image image = Image.FromStream(ms);
+                lbPhoto.Image = image;
+            }
+        }
         public void LoadMessages(int FriendId)
         {
             //Preparing Request
@@ -175,7 +188,11 @@ namespace NSM.FORMS.Forms
             this.PasswordData = PasswordData;
 
             InitializeComponent();
-
+            using (MemoryStream ms = new MemoryStream(this.Photo))
+            {
+                Image image = Image.FromStream(ms);
+                lbPhoto.Image = image;
+            }
             this.Messages = new List<string>();
             this.CurrentChatId = -1;
 
@@ -196,7 +213,7 @@ namespace NSM.FORMS.Forms
 
                 this.Id = Convert.ToInt32(Received.Informations[0]);
                 this.Name = Received.Informations[1];
-                this.Photo = Received.Informations[4];
+                // this.Photo = Received.Informations[4];
                 this.lbName.Text = this.Name;
 
             }
@@ -282,11 +299,17 @@ namespace NSM.FORMS.Forms
 
         private void lbPhoto_Click_1(object sender, EventArgs e)
         {
-            var UserProfile = new UserProfile();
-            if (UserProfile.ShowDialog() == DialogResult.OK)
+            var UserProfile = new UserProfile(this.Name, this.Photo);
+            var response = UserProfile.ShowDialog();
+            if (response == DialogResult.OK)
+            {
+                byte[] PFPByte = File.ReadAllBytes(UserProfile.caminhoDaImagem);
+                UpdatePhotoAndName(UserProfile.txtName.Text, PFPByte);
+            }
+            else if (response == DialogResult.Yes)
             {
                 this.Name = UserProfile.txtName.Text;
-                this.lbName.Text = this.Name;
+                lbName.Text = this.Name;
             }
         }
 

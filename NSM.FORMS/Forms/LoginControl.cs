@@ -57,5 +57,13 @@ namespace NSM.FORMS.Forms
         {
 
         }
+
+        private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                btnLogin_Click(null, null);
+            }
+        }
     }
 }
