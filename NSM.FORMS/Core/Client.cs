@@ -24,7 +24,7 @@ namespace NSM.FORMS.CORE
 
         public static MessagePackage Listen()
         {
-            byte[] MsgFromServer = new byte[60000];
+            byte[] MsgFromServer = new byte[1000000];
             int size = Client.ClientSocket.Receive(MsgFromServer);
             string json = (Encoding.ASCII.GetString(MsgFromServer, 0, size));
             return JsonSerializer.Deserialize<MessagePackage>(json);

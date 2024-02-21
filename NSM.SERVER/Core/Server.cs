@@ -54,7 +54,7 @@ namespace NSM.SERVER.CORE
             while (true)
             {
                 //Get Json from Client
-                byte[] ClientMsg = new byte[60000];
+                byte[] ClientMsg = new byte[1000000];
                 int size;
                 //If clients disconnect close thread
                 try
