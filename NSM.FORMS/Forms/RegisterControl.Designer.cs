@@ -59,6 +59,7 @@
             // 
             // btnRegister
             // 
+            btnRegister.FlatAppearance.BorderSize = 0;
             btnRegister.FlatStyle = FlatStyle.Flat;
             btnRegister.Image = (Image)resources.GetObject("btnRegister.Image");
             btnRegister.ImageAlign = ContentAlignment.MiddleLeft;

@@ -39,6 +39,8 @@
             // 
             // btnLogin
             // 
+            btnLogin.BackColor = Color.Transparent;
+            btnLogin.FlatAppearance.BorderSize = 0;
             btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.Image = (Image)resources.GetObject("btnLogin.Image");
             btnLogin.ImageAlign = ContentAlignment.MiddleLeft;
@@ -48,7 +50,7 @@
             btnLogin.TabIndex = 0;
             btnLogin.Text = "Login";
             btnLogin.TextAlign = ContentAlignment.MiddleRight;
-            btnLogin.UseVisualStyleBackColor = true;
+            btnLogin.UseVisualStyleBackColor = false;
             btnLogin.Click += btnLogin_Click;
             // 
             // label1
