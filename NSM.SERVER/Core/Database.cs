@@ -437,7 +437,7 @@ namespace NSM.SERVER.CORE
 
                     //Save photo
                     if(!File.Exists(user.Photo)) {
-                        File.Create(user.Photo);
+                        File.Create(user.Photo).Close();
                     }
                     File.WriteAllBytes(user.Photo, image);
                     //Save photo
