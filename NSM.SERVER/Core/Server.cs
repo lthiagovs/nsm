@@ -189,6 +189,9 @@ namespace NSM.SERVER.CORE
                         Database.DeleteUser(Message.Informations[0], Message.Informations[1]);
                         Send.MessageType = MessageType.Message_Confirmation;
 
+                    }else if(Message.MessageType == MessageType.Message_ChangeProfilePhoto)
+                    {
+
                     }
                     #endregion
                     //Operate

@@ -1,6 +1,6 @@
-﻿using NSM.SERVER.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using NSM.SERVER.Database;
 using NSM.SERVER.Models;
-using System.Text.RegularExpressions;
 
 namespace NSM.SERVER.CORE
 {
@@ -419,6 +419,31 @@ namespace NSM.SERVER.CORE
 
             }
             return Groups;
+        }
+
+        public static bool ChangeProfilePhoto(int UserId, byte[] image)
+        {
+            try
+            {
+                using (DatabaseContext db = new DatabaseContext())
+                {
+                    User user = db.User.Single(x => x.Id == UserId);
+                    user.Photo = @"Photos\"+user.Name+".png";
+                    db.User.Attach(user);
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    //Save photo
+
+                    //Save photo
+
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
     }

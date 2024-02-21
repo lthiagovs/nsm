@@ -16,7 +16,8 @@
         Message_SendMessage,
         Message_GetChatMessages,
         Message_GetGroups,
-        Message_DeleteUser
+        Message_DeleteUser,
+        Message_ChangeProfilePhoto
 
     }
 
