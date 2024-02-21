@@ -225,7 +225,6 @@
             btnUpdateGroups.Size = new Size(34, 31);
             btnUpdateGroups.TabIndex = 5;
             btnUpdateGroups.UseVisualStyleBackColor = true;
-            btnUpdateGroups.Click += btnUpdateGroups_Click;
             // 
             // label2
             // 

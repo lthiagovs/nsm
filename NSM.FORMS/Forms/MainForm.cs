@@ -10,6 +10,7 @@ namespace NSM.FORMS.Forms
 
         private int Id { get; set; }
         private int CurrentChatId { get; set; }
+        public int CurrentFriendId { get; set; }
         private string Name { get; set; }
 
         private byte[] Photo { get; set; } = File.ReadAllBytes("anonymAvatar.jpg");
@@ -150,37 +151,6 @@ namespace NSM.FORMS.Forms
 
         }
 
-        //Load groups to the interface
-        private void LoadGroups()
-        {
-            //Send
-            MessagePackage Message = new MessagePackage();
-            Message.MessageType = MessageType.Message_GetGroups;
-            Message.ClientId = this.Id;
-            Message.Informations = new List<string>();
-            Client.Send(Message);
-
-            //Await
-            MessagePackage Received = Client.Listen();
-
-            if (Received.MessageType == MessageType.Message_Confirmation)
-            {
-                //+70
-                int GroudPosY = 0;
-                for (int i = 0; i < Received.Informations.Count; i++)
-                {
-
-                    GroupControl Group = new GroupControl();
-                    Group.lbName.Text = Received.Informations[i];
-                    Group.Location = new Point(0, GroudPosY);
-                    GroudPosY += 70;
-                    pnGroups.Controls.Add(Group);
-
-                }
-
-            }
-        }
-
         public MainForm(string LoginData, string PasswordData)
         {
             //Gets Login/PasswordData
@@ -284,14 +254,6 @@ namespace NSM.FORMS.Forms
         {
             UpdateMessages(this.CurrentChatId);
         }
-
-        private void btnUpdateGroups_Click(object sender, EventArgs e)
-        {
-
-            LoadGroups();
-
-        }
-
         private void lbPhoto_Click(object sender, EventArgs e)
         {
 
