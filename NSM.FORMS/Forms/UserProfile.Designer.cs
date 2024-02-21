@@ -41,9 +41,10 @@
             // 
             pcbProfilePicture.Image = (Image)resources.GetObject("pcbProfilePicture.Image");
             pcbProfilePicture.InitialImage = null;
-            pcbProfilePicture.Location = new Point(12, 12);
+            pcbProfilePicture.Location = new Point(10, 9);
+            pcbProfilePicture.Margin = new Padding(3, 2, 3, 2);
             pcbProfilePicture.Name = "pcbProfilePicture";
-            pcbProfilePicture.Size = new Size(400, 400);
+            pcbProfilePicture.Size = new Size(350, 300);
             pcbProfilePicture.SizeMode = PictureBoxSizeMode.StretchImage;
             pcbProfilePicture.TabIndex = 0;
             pcbProfilePicture.TabStop = false;
@@ -51,9 +52,10 @@
             // 
             // btnChangePFP
             // 
-            btnChangePFP.Location = new Point(309, 373);
+            btnChangePFP.Location = new Point(270, 280);
+            btnChangePFP.Margin = new Padding(3, 2, 3, 2);
             btnChangePFP.Name = "btnChangePFP";
-            btnChangePFP.Size = new Size(92, 29);
+            btnChangePFP.Size = new Size(80, 22);
             btnChangePFP.TabIndex = 1;
             btnChangePFP.Text = "Mudar foto";
             btnChangePFP.UseVisualStyleBackColor = true;
@@ -61,28 +63,30 @@
             // 
             // txtName
             // 
-            txtName.Location = new Point(12, 438);
+            txtName.Location = new Point(10, 328);
+            txtName.Margin = new Padding(3, 2, 3, 2);
             txtName.MaxLength = 20;
             txtName.Name = "txtName";
-            txtName.Size = new Size(188, 27);
+            txtName.Size = new Size(165, 23);
             txtName.TabIndex = 2;
             txtName.TextChanged += textBox1_TextChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 415);
+            label1.Location = new Point(10, 311);
             label1.Name = "label1";
-            label1.Size = new Size(53, 20);
+            label1.Size = new Size(43, 15);
             label1.TabIndex = 3;
             label1.Text = "Nome:";
             // 
             // btnSalvar
             // 
             btnSalvar.DialogResult = DialogResult.Yes;
-            btnSalvar.Location = new Point(309, 436);
+            btnSalvar.Location = new Point(270, 327);
+            btnSalvar.Margin = new Padding(3, 2, 3, 2);
             btnSalvar.Name = "btnSalvar";
-            btnSalvar.Size = new Size(94, 29);
+            btnSalvar.Size = new Size(82, 22);
             btnSalvar.TabIndex = 4;
             btnSalvar.Text = "Salvar";
             btnSalvar.UseVisualStyleBackColor = true;
@@ -90,14 +94,16 @@
             // 
             // UserProfile
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(422, 483);
+            ClientSize = new Size(369, 362);
             Controls.Add(btnSalvar);
             Controls.Add(label1);
             Controls.Add(txtName);
             Controls.Add(btnChangePFP);
             Controls.Add(pcbProfilePicture);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(3, 2, 3, 2);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "UserProfile";

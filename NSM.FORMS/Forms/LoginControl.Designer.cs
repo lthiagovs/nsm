@@ -28,72 +28,88 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginControl));
             btnLogin = new Button();
             label1 = new Label();
             label2 = new Label();
             txtLogin = new TextBox();
             txtPassword = new TextBox();
+            lbLogo = new Label();
             SuspendLayout();
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(241, 488);
-            btnLogin.Margin = new Padding(3, 4, 3, 4);
+            btnLogin.FlatStyle = FlatStyle.Flat;
+            btnLogin.Image = (Image)resources.GetObject("btnLogin.Image");
+            btnLogin.ImageAlign = ContentAlignment.MiddleLeft;
+            btnLogin.Location = new Point(211, 376);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(86, 31);
+            btnLogin.Size = new Size(93, 32);
             btnLogin.TabIndex = 0;
             btnLogin.Text = "Login";
+            btnLogin.TextAlign = ContentAlignment.MiddleRight;
             btnLogin.UseVisualStyleBackColor = true;
             btnLogin.Click += btnLogin_Click;
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(102, 161);
+            label1.Image = (Image)resources.GetObject("label1.Image");
+            label1.ImageAlign = ContentAlignment.MiddleLeft;
+            label1.Location = new Point(89, 180);
             label1.Name = "label1";
-            label1.Size = new Size(49, 20);
+            label1.Size = new Size(71, 20);
             label1.TabIndex = 1;
             label1.Text = "Login:";
+            label1.TextAlign = ContentAlignment.MiddleRight;
             // 
             // label2
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(104, 255);
+            label2.Image = (Image)resources.GetObject("label2.Image");
+            label2.ImageAlign = ContentAlignment.MiddleLeft;
+            label2.Location = new Point(89, 249);
             label2.Name = "label2";
-            label2.Size = new Size(52, 20);
+            label2.Size = new Size(67, 21);
             label2.TabIndex = 2;
             label2.Text = "Senha:";
+            label2.TextAlign = ContentAlignment.MiddleRight;
             // 
             // txtLogin
             // 
-            txtLogin.Location = new Point(102, 185);
-            txtLogin.Margin = new Padding(3, 4, 3, 4);
+            txtLogin.Location = new Point(89, 203);
             txtLogin.Name = "txtLogin";
-            txtLogin.Size = new Size(148, 27);
+            txtLogin.Size = new Size(130, 23);
             txtLogin.TabIndex = 3;
             // 
             // txtPassword
             // 
-            txtPassword.Location = new Point(104, 279);
-            txtPassword.Margin = new Padding(3, 4, 3, 4);
+            txtPassword.Location = new Point(91, 273);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(148, 27);
+            txtPassword.Size = new Size(130, 23);
             txtPassword.TabIndex = 4;
+            txtPassword.UseSystemPasswordChar = true;
             txtPassword.KeyPress += txtPassword_KeyPress;
+            // 
+            // lbLogo
+            // 
+            lbLogo.Image = (Image)resources.GetObject("lbLogo.Image");
+            lbLogo.Location = new Point(79, 14);
+            lbLogo.Name = "lbLogo";
+            lbLogo.Size = new Size(153, 155);
+            lbLogo.TabIndex = 5;
             // 
             // LoginControl
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(lbLogo);
             Controls.Add(txtPassword);
             Controls.Add(txtLogin);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(btnLogin);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "LoginControl";
-            Padding = new Padding(29, 33, 29, 33);
-            Size = new Size(359, 556);
+            Padding = new Padding(25);
+            Size = new Size(314, 417);
             Load += LoginControl_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -106,5 +122,6 @@
         private Label label2;
         private TextBox txtLogin;
         private TextBox txtPassword;
+        private Label lbLogo;
     }
 }

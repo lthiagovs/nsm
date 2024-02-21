@@ -16,6 +16,7 @@ namespace NSM.FORMS.Forms
     public partial class UserProfile : Form
     {
         public string caminhoDaImagem;
+        private bool photoChanged = false;
         public UserProfile(string name, byte[] photoInBytes)
         {
             InitializeComponent();
@@ -26,6 +27,7 @@ namespace NSM.FORMS.Forms
                 {
                     Image image = Image.FromStream(ms);
                     pcbProfilePicture.Image = image;
+                    photoChanged = true;
                 }
             }
             else
@@ -47,7 +49,7 @@ namespace NSM.FORMS.Forms
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = "Todos os Arquivos|*.*";
+                openFileDialog.Filter = "JPG File|*.jpg*";
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -67,7 +69,7 @@ namespace NSM.FORMS.Forms
         {
             if (caminhoDaImagem != null)
             {
-                if (!pcbProfilePicture.ImageLocation.Equals("anonymAvatar.jpg"))
+                if (photoChanged)
                 {
                     this.DialogResult = DialogResult.OK;
                 }

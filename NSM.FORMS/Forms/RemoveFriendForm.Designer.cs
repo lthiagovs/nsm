@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RemoveFriendForm));
             label1 = new Label();
             cbFriends = new ComboBox();
             btnRemove = new Button();
@@ -69,6 +70,7 @@
             Controls.Add(cbFriends);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "RemoveFriendForm";

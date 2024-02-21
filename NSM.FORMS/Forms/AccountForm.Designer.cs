@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountForm));
             menu = new MenuStrip();
             menuAccount = new ToolStripMenuItem();
             menuLogin = new ToolStripMenuItem();
@@ -42,8 +43,7 @@
             menu.Items.AddRange(new ToolStripItem[] { menuAccount });
             menu.Location = new Point(0, 0);
             menu.Name = "menu";
-            menu.Padding = new Padding(7, 3, 0, 3);
-            menu.Size = new Size(359, 30);
+            menu.Size = new Size(314, 24);
             menu.TabIndex = 0;
             menu.Text = "menuStrip1";
             // 
@@ -51,41 +51,42 @@
             // 
             menuAccount.DropDownItems.AddRange(new ToolStripItem[] { menuLogin, menuRegister });
             menuAccount.Name = "menuAccount";
-            menuAccount.Size = new Size(62, 24);
+            menuAccount.Size = new Size(51, 20);
             menuAccount.Text = "Conta";
             // 
             // menuLogin
             // 
             menuLogin.Name = "menuLogin";
-            menuLogin.Size = new Size(151, 26);
+            menuLogin.Size = new Size(120, 22);
             menuLogin.Text = "Entrar";
             menuLogin.Click += menuLogin_Click;
             // 
             // menuRegister
             // 
             menuRegister.Name = "menuRegister";
-            menuRegister.Size = new Size(151, 26);
+            menuRegister.Size = new Size(120, 22);
             menuRegister.Text = "Registrar";
             menuRegister.Click += menuRegister_Click;
             // 
             // pnMain
             // 
             pnMain.BackColor = SystemColors.ButtonHighlight;
-            pnMain.Location = new Point(0, 33);
+            pnMain.Location = new Point(0, 25);
+            pnMain.Margin = new Padding(3, 2, 3, 2);
             pnMain.Name = "pnMain";
-            pnMain.Size = new Size(359, 556);
+            pnMain.Size = new Size(314, 417);
             pnMain.TabIndex = 2;
             // 
             // AccountForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(359, 593);
+            ClientSize = new Size(314, 445);
             Controls.Add(pnMain);
             Controls.Add(menu);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menu;
-            Margin = new Padding(3, 4, 3, 4);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "AccountForm";

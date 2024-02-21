@@ -52,6 +52,7 @@ namespace NSM.FORMS.Forms
                 MainForm parent = (MainForm)this.Parent.Parent.Parent;
                 parent.LoadMessages(FriendID);
                 parent.CurrentFriendId = FriendID;
+                parent.lbChatName.Text = this.lbName.Text;
 
             }
             catch(Exception ex)

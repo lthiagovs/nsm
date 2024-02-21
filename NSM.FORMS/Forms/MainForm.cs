@@ -420,25 +420,27 @@ namespace NSM.FORMS.Forms
                     UpdatePhotoAndName(this.Name, PFPByte);
                 }
 
-                //Change user name...
-                Message = new MessagePackage();
-                Message.ClientId = this.Id;
-                Message.Informations = new List<string>();
-                Message.Informations.Add(UserProfile.txtName.Text);
-                Message.MessageType = MessageType.Message_ChangeUserName;
+                if (!this.Name.Equals(UserProfile.txtName.Text)) {
+                    //Change user name...
+                    Message = new MessagePackage();
+                    Message.ClientId = this.Id;
+                    Message.Informations = new List<string>();
+                    Message.Informations.Add(UserProfile.txtName.Text);
+                    Message.MessageType = MessageType.Message_ChangeUserName;
 
-                Client.Send(Message);
+                    Client.Send(Message);
 
-                Received = Client.Listen();
+                    Received = Client.Listen();
 
-                if (Received.MessageType != MessageType.Message_Confirmation)
-                {
-                    MessageBox.Show("Algum usuario ja possui este nome...");
-                }
-                else
-                {
-                    this.Name = UserProfile.txtName.Text;
-                    lbName.Text = this.Name;
+                    if (Received.MessageType != MessageType.Message_Confirmation)
+                    {
+                        MessageBox.Show("Algum usuario ja possui este nome...");
+                    }
+                    else
+                    {
+                        this.Name = UserProfile.txtName.Text;
+                        lbName.Text = this.Name;
+                    }
                 }
 
                 //Update Data in Server
@@ -446,24 +448,27 @@ namespace NSM.FORMS.Forms
             else if (response == DialogResult.Yes)
             {
                 //Change user name...
-                MessagePackage Message = new MessagePackage();
-                Message.ClientId = this.Id;
-                Message.Informations = new List<string>();
-                Message.Informations.Add(UserProfile.txtName.Text);
-                Message.MessageType = MessageType.Message_ChangeUserName;
-
-                Client.Send(Message);
-
-                MessagePackage Received = Client.Listen();
-
-                if (Received.MessageType != MessageType.Message_Confirmation)
+                if (!this.Name.Equals(UserProfile.txtName.Text))
                 {
-                    MessageBox.Show("Algum usuario ja possui este nome...");
-                }
-                else
-                {
-                    this.Name = UserProfile.txtName.Text;
-                    lbName.Text = this.Name;
+                    MessagePackage Message = new MessagePackage();
+                    Message.ClientId = this.Id;
+                    Message.Informations = new List<string>();
+                    Message.Informations.Add(UserProfile.txtName.Text);
+                    Message.MessageType = MessageType.Message_ChangeUserName;
+
+                    Client.Send(Message);
+
+                    MessagePackage Received = Client.Listen();
+
+                    if (Received.MessageType != MessageType.Message_Confirmation)
+                    {
+                        MessageBox.Show("Algum usuario ja possui este nome...");
+                    }
+                    else
+                    {
+                        this.Name = UserProfile.txtName.Text;
+                        lbName.Text = this.Name;
+                    }
                 }
 
             }
@@ -512,7 +517,7 @@ namespace NSM.FORMS.Forms
         private void menuSearch_Click(object sender, EventArgs e)
         {
             AllUserForm allUserForm = new AllUserForm();
-            if(allUserForm.ShowDialog()==DialogResult.OK)
+            if (allUserForm.ShowDialog() == DialogResult.OK)
             {
                 string UserName = allUserForm.cbUser.SelectedItem.ToString();
                 if (!UserName.Equals(this.Name))
@@ -593,17 +598,17 @@ namespace NSM.FORMS.Forms
         {
             RemoveFriendForm removeFriendForm = new RemoveFriendForm();
 
-            if(removeFriendForm.ShowDialog() == DialogResult.OK)
+            if (removeFriendForm.ShowDialog() == DialogResult.OK)
             {
                 string FriendName = "";
-                if (removeFriendForm.cbFriends.SelectedIndex!=-1)
+                if (removeFriendForm.cbFriends.SelectedIndex != -1)
                 {
 
                     FriendName = removeFriendForm.cbFriends.SelectedItem.ToString();
 
-                    foreach(FriendControl fc in pnFriends.Controls)
+                    foreach (FriendControl fc in pnFriends.Controls)
                     {
-                        if(fc.lbName.Text.Equals(FriendName))
+                        if (fc.lbName.Text.Equals(FriendName))
                         {
                             pnFriends.Controls.Remove(fc);
                             MessageBox.Show("Amigo: " + FriendName + " removido.");
@@ -618,6 +623,7 @@ namespace NSM.FORMS.Forms
                 pnFriends.Update();
                 this.CurrentChatId = -1;
                 this.CurrentFriendId = -1;
+                this.lbChatName.Text = "";
 
                 File.Delete("friendlist.bin");
                 //Save friends in a file
@@ -635,6 +641,15 @@ namespace NSM.FORMS.Forms
 
             }
 
+        }
+
+        private void txtMessageContent_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)13)
+            {
+                SendMessage(this.CurrentChatId, this.txtMessageContent.Text);
+                LoadMessages(this.CurrentFriendId);
+            }
         }
     }
 

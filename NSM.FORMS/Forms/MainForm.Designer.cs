@@ -39,12 +39,14 @@
             panel4 = new Panel();
             pnFriends = new Panel();
             panel3 = new Panel();
+            pnMainContent = new Panel();
+            pnMessages = new Panel();
             panel2 = new Panel();
             panel5 = new Panel();
             btnUpdateMessages = new Button();
             btnSendMessage = new Button();
+            lbChatName = new Label();
             txtMessageContent = new TextBox();
-            pnMessages = new Panel();
             menuMain = new MenuStrip();
             menuAccount = new ToolStripMenuItem();
             menuLogout = new ToolStripMenuItem();
@@ -56,6 +58,7 @@
             panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)lbPhoto).BeginInit();
             panel3.SuspendLayout();
+            pnMainContent.SuspendLayout();
             panel2.SuspendLayout();
             panel5.SuspendLayout();
             menuMain.SuspendLayout();
@@ -100,9 +103,10 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 12F);
             label1.Location = new Point(4, 43);
             label1.Name = "label1";
-            label1.Size = new Size(51, 15);
+            label1.Size = new Size(66, 21);
             label1.TabIndex = 3;
             label1.Text = "Amigos:";
             // 
@@ -134,16 +138,17 @@
             // lbName
             // 
             lbName.AutoSize = true;
+            lbName.Font = new Font("Segoe UI", 12F);
             lbName.Location = new Point(7, 165);
             lbName.Name = "lbName";
-            lbName.Size = new Size(47, 15);
+            lbName.Size = new Size(63, 21);
             lbName.TabIndex = 1;
             lbName.Text = "_name_";
             // 
             // panel4
             // 
             panel4.BackColor = SystemColors.ActiveCaptionText;
-            panel4.Location = new Point(4, 183);
+            panel4.Location = new Point(3, 189);
             panel4.Name = "panel4";
             panel4.Size = new Size(170, 2);
             panel4.TabIndex = 2;
@@ -161,17 +166,37 @@
             // panel3
             // 
             panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Controls.Add(panel2);
-            panel3.Controls.Add(pnMessages);
+            panel3.Controls.Add(pnMainContent);
             panel3.Dock = DockStyle.Fill;
             panel3.Location = new Point(181, 24);
             panel3.Name = "panel3";
             panel3.Size = new Size(619, 426);
             panel3.TabIndex = 2;
             // 
+            // pnMainContent
+            // 
+            pnMainContent.Controls.Add(pnMessages);
+            pnMainContent.Controls.Add(panel2);
+            pnMainContent.Dock = DockStyle.Fill;
+            pnMainContent.Location = new Point(0, 0);
+            pnMainContent.Name = "pnMainContent";
+            pnMainContent.Size = new Size(617, 424);
+            pnMainContent.TabIndex = 5;
+            // 
+            // pnMessages
+            // 
+            pnMessages.AutoScroll = true;
+            pnMessages.BorderStyle = BorderStyle.FixedSingle;
+            pnMessages.Dock = DockStyle.Fill;
+            pnMessages.Location = new Point(0, 0);
+            pnMessages.Name = "pnMessages";
+            pnMessages.Size = new Size(617, 365);
+            pnMessages.TabIndex = 3;
+            // 
             // panel2
             // 
             panel2.Controls.Add(panel5);
+            panel2.Controls.Add(lbChatName);
             panel2.Controls.Add(txtMessageContent);
             panel2.Dock = DockStyle.Bottom;
             panel2.Location = new Point(0, 365);
@@ -215,6 +240,16 @@
             btnSendMessage.UseVisualStyleBackColor = true;
             btnSendMessage.Click += btnSendMessage_Click;
             // 
+            // lbChatName
+            // 
+            lbChatName.Font = new Font("Segoe UI", 12F);
+            lbChatName.ForeColor = Color.Blue;
+            lbChatName.Location = new Point(5, 9);
+            lbChatName.Name = "lbChatName";
+            lbChatName.Size = new Size(490, 24);
+            lbChatName.TabIndex = 0;
+            lbChatName.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // txtMessageContent
             // 
             txtMessageContent.Dock = DockStyle.Bottom;
@@ -222,16 +257,7 @@
             txtMessageContent.Name = "txtMessageContent";
             txtMessageContent.Size = new Size(617, 23);
             txtMessageContent.TabIndex = 0;
-            // 
-            // pnMessages
-            // 
-            pnMessages.AutoScroll = true;
-            pnMessages.BorderStyle = BorderStyle.FixedSingle;
-            pnMessages.Dock = DockStyle.Fill;
-            pnMessages.Location = new Point(0, 0);
-            pnMessages.Name = "pnMessages";
-            pnMessages.Size = new Size(617, 424);
-            pnMessages.TabIndex = 3;
+            txtMessageContent.KeyPress += txtMessageContent_KeyPress;
             // 
             // menuMain
             // 
@@ -246,8 +272,10 @@
             // menuAccount
             // 
             menuAccount.DropDownItems.AddRange(new ToolStripItem[] { menuLogout });
+            menuAccount.Image = (Image)resources.GetObject("menuAccount.Image");
+            menuAccount.ImageAlign = ContentAlignment.MiddleLeft;
             menuAccount.Name = "menuAccount";
-            menuAccount.Size = new Size(51, 20);
+            menuAccount.Size = new Size(67, 20);
             menuAccount.Text = "Conta";
             // 
             // menuLogout
@@ -260,21 +288,22 @@
             // menuFriends
             // 
             menuFriends.DropDownItems.AddRange(new ToolStripItem[] { menuSearch, menuRemove });
+            menuFriends.Image = (Image)resources.GetObject("menuFriends.Image");
             menuFriends.Name = "menuFriends";
-            menuFriends.Size = new Size(60, 20);
+            menuFriends.Size = new Size(76, 20);
             menuFriends.Text = "Amigos";
             // 
             // menuSearch
             // 
             menuSearch.Name = "menuSearch";
-            menuSearch.Size = new Size(180, 22);
+            menuSearch.Size = new Size(121, 22);
             menuSearch.Text = "Procurar";
             menuSearch.Click += menuSearch_Click;
             // 
             // menuRemove
             // 
             menuRemove.Name = "menuRemove";
-            menuRemove.Size = new Size(180, 22);
+            menuRemove.Size = new Size(121, 22);
             menuRemove.Text = "Remover";
             menuRemove.Click += menuRemove_Click;
             // 
@@ -286,6 +315,7 @@
             Controls.Add(panel3);
             Controls.Add(panel1);
             Controls.Add(menuMain);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "NSM";
@@ -299,6 +329,7 @@
             panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)lbPhoto).EndInit();
             panel3.ResumeLayout(false);
+            pnMainContent.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             panel5.ResumeLayout(false);
@@ -334,5 +365,7 @@
         private ToolStripMenuItem menuFriends;
         private ToolStripMenuItem menuSearch;
         private ToolStripMenuItem menuRemove;
+        public Label lbChatName;
+        private Panel pnMainContent;
     }
 }
