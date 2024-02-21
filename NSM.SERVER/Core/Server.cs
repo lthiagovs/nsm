@@ -30,14 +30,12 @@ namespace NSM.SERVER.CORE
 
         public static void Run()
         {
-            Console.WriteLine("Server is listening...");
+            Console.WriteLine("NSM SERVER ONLINE!");
 
             Socket ClientSocket = default(Socket);
             int ClientCounter = 0;
             while (true)
             {
-                Console.WriteLine("Clients number:" + ClientCounter);
-
                 //Connect to another client
                 ClientSocket = ServerListener.Accept();
 
