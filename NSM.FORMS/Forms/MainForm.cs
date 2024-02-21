@@ -8,7 +8,7 @@ namespace NSM.FORMS.Forms
     {
 
         private int Id { get; set; }
-        private int CurrentChatId { get; set; }
+        public int CurrentChatId { get; set; }
         private string Name { get; set; }
 
         private string Photo { get; set; }
@@ -90,82 +90,6 @@ namespace NSM.FORMS.Forms
                 MessageBox.Show("Nenhum chat carregado...");
             }
 
-        }
-
-        //Update messages from the current chat
-        private void UpdateMessages(int ChatId)
-        {
-            if (ChatId != -1)
-            {
-                //Send Request
-                MessagePackage Message = new MessagePackage();
-                Message.ClientId = this.Id;
-                Message.MessageType = MessageType.Message_GetChatMessages;
-                Message.Informations = new List<string>();
-                Message.Informations.Add(ChatId + "");
-                Client.Send(Message);
-
-                //Wait
-                MessagePackage Received = Client.Listen();
-
-                //Load messages to interface
-                if (Received.MessageType == MessageType.Message_Confirmation)
-                {
-
-                    //+70
-                    int messagePosY = 0;
-                    pnMessages.Controls.Clear();
-                    Messages.Clear();
-                    Messages = Received.Informations;
-
-                    for (int i = 0; i < Messages.Count; i++)
-                    {
-                        MessageControl messageControl = new MessageControl();
-                        messageControl.lbText.Text = Messages[i];
-                        messageControl.Location = new Point(0, messagePosY);
-                        messagePosY += 70;
-                        messageControl.pbPhoto.ImageLocation = "";
-                        pnMessages.Controls.Add(messageControl);
-                    }
-
-                }
-            }
-            else
-            {
-                MessageBox.Show("Nenhum chat carregado...");
-            }
-
-        }
-
-        //Load groups to the interface
-        private void LoadGroups()
-        {
-            //Send
-            MessagePackage Message = new MessagePackage();
-            Message.MessageType = MessageType.Message_GetGroups;
-            Message.ClientId = this.Id;
-            Message.Informations = new List<string>();
-            Client.Send(Message);
-
-            //Await
-            MessagePackage Received = Client.Listen();
-
-            if (Received.MessageType == MessageType.Message_Confirmation)
-            {
-                //+70
-                int GroudPosY = 0;
-                for (int i = 0; i < Received.Informations.Count; i++)
-                {
-
-                    GroupControl Group = new GroupControl();
-                    Group.lbName.Text = Received.Informations[i];
-                    Group.Location = new Point(0, GroudPosY);
-                    GroudPosY += 70;
-                    pnGroups.Controls.Add(Group);
-
-                }
-
-            }
         }
 
         public MainForm(string LoginData, string PasswordData)
@@ -259,20 +183,12 @@ namespace NSM.FORMS.Forms
         private void btnSendMessage_Click(object sender, EventArgs e)
         {
             SendMessage(this.CurrentChatId, this.txtMessageContent.Text);
-            Thread.Sleep(200);
-            UpdateMessages(this.CurrentChatId);
+            LoadMessages(this.CurrentChatId);
         }
 
         private void btnUpdateMessages_Click(object sender, EventArgs e)
         {
-            UpdateMessages(this.CurrentChatId);
-        }
-
-        private void btnUpdateGroups_Click(object sender, EventArgs e)
-        {
-
-            LoadGroups();
-
+            LoadMessages(this.CurrentChatId);
         }
     }
 }

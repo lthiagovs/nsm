@@ -41,15 +41,11 @@
             btnUpdateMessages = new Button();
             btnSendMessage = new Button();
             txtMessageContent = new TextBox();
-            pnGroups = new Panel();
             panel2 = new Panel();
-            btnUpdateGroups = new Button();
-            label2 = new Label();
             panel1.SuspendLayout();
             panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)lbPhoto).BeginInit();
             panel3.SuspendLayout();
-            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -178,44 +174,15 @@
             txtMessageContent.Size = new Size(578, 23);
             txtMessageContent.TabIndex = 0;
             // 
-            // pnGroups
-            // 
-            pnGroups.BorderStyle = BorderStyle.FixedSingle;
-            pnGroups.Location = new Point(3, 33);
-            pnGroups.Name = "pnGroups";
-            pnGroups.Size = new Size(102, 412);
-            pnGroups.TabIndex = 0;
-            // 
             // panel2
             // 
             panel2.BackColor = SystemColors.ActiveCaption;
             panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(btnUpdateGroups);
-            panel2.Controls.Add(label2);
-            panel2.Controls.Add(pnGroups);
             panel2.Dock = DockStyle.Right;
             panel2.Location = new Point(690, 0);
             panel2.Name = "panel2";
             panel2.Size = new Size(110, 450);
             panel2.TabIndex = 1;
-            // 
-            // btnUpdateGroups
-            // 
-            btnUpdateGroups.Location = new Point(59, 7);
-            btnUpdateGroups.Name = "btnUpdateGroups";
-            btnUpdateGroups.Size = new Size(30, 23);
-            btnUpdateGroups.TabIndex = 5;
-            btnUpdateGroups.UseVisualStyleBackColor = true;
-            btnUpdateGroups.Click += btnUpdateGroups_Click;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(5, 15);
-            label2.Name = "label2";
-            label2.Size = new Size(48, 15);
-            label2.TabIndex = 4;
-            label2.Text = "Grupos:";
             // 
             // MainForm
             // 
@@ -237,8 +204,6 @@
             ((System.ComponentModel.ISupportInitialize)lbPhoto).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -254,14 +219,11 @@
         private TextBox txtMessageContent;
         private Panel pnMessages;
         private Panel pnFriends;
-        private Panel pnGroups;
         private Panel panel2;
-        private Label label2;
         public Label lbName;
         public string LoginData;
         public string PasswordData;
         private Button btnSearchFriends;
         private Panel panel6;
-        private Button btnUpdateGroups;
     }
 }

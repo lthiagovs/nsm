@@ -2,155 +2,70 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text.Json;
+using System.Text;
 using NSM.SERVER.Models;
 
 namespace NSM.SERVER.CORE
 {
-
-    /*
-         * Still needs to read another MessageTypes
-         * Need to connect to other clients
-     */
-
-
     public static class Server
     {
+        public static int Port = 8080;
+        public static string IP = "127.0.0.1";
 
-        public static TcpListener ServerListener;
-        public static Socket Connection;
-        public static NetworkStream SocketStream;
-        public static BinaryWriter ServerWriter;
-        public static BinaryReader ServerReader;
-        private static bool Run = false;
+        public static Socket ServerListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        public static IPEndPoint Adress = new IPEndPoint(IPAddress.Parse(IP), Port);
 
-        //Messages that the server received
-        private static List<MessagePackage> ServerMessages;
+        //Informations
+        public static int MessagesReceived = 0;
+        public static int MessagesSend = 0;
+        public static int WrongPackages = 0;
+        public static int Operations = 0;
 
-        //Messages to send to clients
-        private static List<MessagePackage> ClientMessages;
-
-        private static int ServerMessages_Count = 0;
-        private static int ClientMessages_Count = 0;
-        private static int ExecutedOperations = 0;
-        private static int WrongPackageReceived = 0;
-
-        //Start the server
         public static void Start()
         {
-            Console.WriteLine("Starting Server...");
-            IPAddress ip = IPAddress.Parse("127.0.0.1");
-            ServerListener = new TcpListener(ip, 4444);
-            ServerListener.Start();
-            Connection = ServerListener.AcceptSocket();
-            SocketStream = new NetworkStream(Connection);
-            ServerWriter = new BinaryWriter(SocketStream);
-            ServerReader = new BinaryReader(SocketStream);
-            ServerMessages = new List<MessagePackage>();
-            ClientMessages = new List<MessagePackage>();
-
-            Console.Write("Server Started...\n");
-            Run = true;
-
+            ServerListener.Bind(Adress);
+            ServerListener.Listen(100);
+            Run();
         }
 
-        //Listen to Message Packages
-        public static void Listen()
+        public static void Run()
         {
-            Run = true;
-            Console.WriteLine("ServerListener listening...");
-            var SerializeOptions = new JsonSerializerOptions();
-            SerializeOptions.WriteIndented = true;
+            Console.WriteLine("Server is listening...");
 
-            while (Run)
+            Socket ClientSocket = default(Socket);
+            int ClientCounter = 0;
+            while (true)
             {
-                //Listening
-                try
-                {
-                    string JSon = ServerReader.ReadString();
-                    MessagePackage? message = JsonSerializer.Deserialize<MessagePackage>(JSon, SerializeOptions);
-                    
-                    if(message!=null)
-                    {
-                        ServerMessages.Add(message);
-                    }
+                Console.WriteLine("Clients number:" + ClientCounter);
 
-                }
-                catch
-                {
-                }
-                //Listening
+                //Connect to another client
+                ClientSocket = ServerListener.Accept();
+
+                //Start thread to answer the user
+                Thread operateThread = new Thread(new ThreadStart(() => Operate(ClientSocket)));
+                operateThread.Start();
+                ClientCounter++;
+
             }
         }
 
-        //Send a Message Package to a client
-        public static void Send(MessagePackage messagePackage)
+        public static void Operate(Socket Client)
         {
-            string JsonMessage = JsonSerializer.Serialize<MessagePackage>(messagePackage);
-            ServerWriter.Write(JsonMessage);
-        }
-        
-        //Send messages to clients
-        public static void SendMessages()
-        {
-            while(Run)
+            while (true)
             {
-                if (ClientMessages_Count != ClientMessages.Count)
-                {
-                    Send(ClientMessages[ClientMessages_Count]);
-                    ClientMessages_Count++;
-                    ExecutedOperations++;
-                }
-
-            }
-
-        }
-
-        //Create a message in ClientMessage to tell
-        //that the last message send has a wrong format
-        private static void WrongFormat(int ClientId)
-        {
-            MessagePackage messagePackage = new MessagePackage();
-            messagePackage.MessageType = MessageType.Message_WrongFormat;
-            messagePackage.ClientId = ClientId;
-            messagePackage.Informations = new List<string>();
-            ClientMessages.Add(messagePackage);
-
-        }
-
-        //Send a positive message to the client
-        private static void Confirmation(int ClientId)
-        {
-            MessagePackage messagePackage = new MessagePackage();
-            messagePackage.MessageType = MessageType.Message_Confirmation;
-            messagePackage.ClientId = ClientId;
-            messagePackage.Informations = new List<string>();
-            ClientMessages.Add(messagePackage);
-        }
-
-        //Send a negative message to the client
-        private static void Negation(int ClientId)
-        {
-            MessagePackage messagePackage = new MessagePackage();
-            messagePackage.MessageType = MessageType.Message_Negation;
-            messagePackage.ClientId = ClientId;
-            messagePackage.Informations = new List<string>();
-            ClientMessages.Add(messagePackage);
-        }
-
-        //Reads Message Packages and take decisions
-        // !![COMPLEX]!! Message_GetFriendChatMessages !![COMPLEX]!! O(n)
-        public static void Execute()
-        {
-            if (ServerMessages_Count != ServerMessages.Count)
-            {
-                MessagePackage? Message = ServerMessages[ServerMessages_Count];
-                ServerMessages_Count++;
-                ExecutedOperations++;
-
+                //Get Json from Client
+                byte[] ClientMsg = new byte[1024];
+                int size = Client.Receive(ClientMsg);
+                string json = (Encoding.ASCII.GetString(ClientMsg, 0, size));
+                MessagePackage Message;
+                MessagePackage Send = new MessagePackage();
+                Send.Informations = new List<string>();
+                Send.ClientId = 0;
                 try
                 {
-
-                    //Operations
+                    Message = JsonSerializer.Deserialize<MessagePackage>(json);
+                    //Operate
+                    #region
                     if (Message.MessageType == MessageType.Message_CreateUser)
                     {
                         //Try to read the message
@@ -162,32 +77,29 @@ namespace NSM.SERVER.CORE
                             Database.CreateUser(Message.Informations[0], Message.Informations[1],
                                 Message.Informations[2], Message.Informations[3]);
 
-                            Confirmation(Message.ClientId);
+                            Send.MessageType = MessageType.Message_Confirmation;
                         }
                         else
-                            Negation(Message.ClientId);
+                            Send.MessageType = MessageType.Message_Negation;
 
                     }
                     else if (Message.MessageType == MessageType.Message_GetUser)
                     {
                         User? User = Database.GetUser(Message.Informations[0], Message.Informations[1]);
-                        if(User == null)
+                        if (User == null)
                         {
-                            Negation(Message.ClientId);
+                            Send.MessageType = MessageType.Message_Negation;
                         }
                         else
                         {
                             //Send to client all informations about loged user
-                            MessagePackage UserMessage = new MessagePackage();
-                            UserMessage.ClientId = Message.ClientId;
-                            UserMessage.MessageType = MessageType.Message_Confirmation;
-                            UserMessage.Informations = new List<string>();
-                            UserMessage.Informations.Add(User.Id+"");
-                            UserMessage.Informations.Add(User.Name);
-                            UserMessage.Informations.Add(User.Login);
-                            UserMessage.Informations.Add(User.Password);
-                            UserMessage.Informations.Add(User.Photo);
-                            ClientMessages.Add(UserMessage);
+                            Send.MessageType = MessageType.Message_Confirmation;
+                            Send.Informations = new List<string>();
+                            Send.Informations.Add(User.Id + "");
+                            Send.Informations.Add(User.Name);
+                            Send.Informations.Add(User.Login);
+                            Send.Informations.Add(User.Password);
+                            Send.Informations.Add(User.Photo);
 
                         }
 
@@ -197,27 +109,24 @@ namespace NSM.SERVER.CORE
 
                         User? User = Database.GetUser(Message.Informations[0]);
 
-                        if(User != null)
+                        if (User != null)
                         {
 
                             //Send to client user Id
-                            MessagePackage UserMessage = new MessagePackage();
-                            UserMessage.ClientId = Message.ClientId;
-                            UserMessage.MessageType = MessageType.Message_Confirmation;
-                            UserMessage.Informations = new List<string>();
-                            UserMessage.Informations.Add(User.Id + "");
-                            ClientMessages.Add(UserMessage);
+                            Send.MessageType = MessageType.Message_Confirmation;
+                            Send.Informations = new List<string>();
+                            Send.Informations.Add(User.Id + "");
 
                         }
                         else
                         {
-                            Negation(Message.ClientId);
+                            Send.MessageType = MessageType.Message_Negation;
                         }
 
                     }
                     else if (Message.MessageType == MessageType.Message_CreateFriendChat)
                     {
-                        Database.CreateChat("FriendChat",Message.ClientId);
+                        Database.CreateChat("FriendChat", Message.ClientId);
                         Chat chat = Database.GetLastChat();
                         Database.BoundChat(chat.Id, Convert.ToInt32(Message.Informations[0]));
                     }
@@ -225,7 +134,6 @@ namespace NSM.SERVER.CORE
                     {
 
                         Chat chat = Database.GetFriendChat(Convert.ToInt32(Message.Informations[0]), Convert.ToInt32(Message.Informations[1]));
-                        MessagePackage Send = new MessagePackage();
                         Send.ClientId = Message.ClientId;
                         Send.MessageType = MessageType.Message_Confirmation;
                         Send.Informations = new List<string>();
@@ -233,21 +141,19 @@ namespace NSM.SERVER.CORE
                         ObjMessages = Database.GetMessages(chat.Id);
                         //Add message string to Send.Informations
                         Send.Informations.Add(chat.Id + "");
-                        foreach(Message message in  ObjMessages)
+                        foreach (Message message in ObjMessages)
                         {
                             Send.Informations.Add(message.Content);
                         }
-                        ClientMessages.Add(Send);
 
                     }
                     else if (Message.MessageType == MessageType.Message_SendMessage)
                     {
-                        Database.CreateMessage(Message.Informations[1],Convert.ToInt32(Message.Informations[0]));
+                        Database.CreateMessage(Message.Informations[1], Convert.ToInt32(Message.Informations[0]));
                     }
-                    else if(Message.MessageType == MessageType.Message_GetChatMessages)
+                    else if (Message.MessageType == MessageType.Message_GetChatMessages)
                     {
                         List<Message> messages = Database.GetMessages(Convert.ToInt32(Message.Informations[0]));
-                        MessagePackage Send = new MessagePackage();
                         Send.MessageType = MessageType.Message_Confirmation;
                         Send.ClientId = Message.ClientId;
                         Send.Informations = new List<string>();
@@ -256,71 +162,29 @@ namespace NSM.SERVER.CORE
                         {
                             Send.Informations.Add(message.Content);
                         }
-                        ClientMessages.Add(Send);
-
-                    }
-                    else if (Message.MessageType == MessageType.Message_GetGroups)
-                    {
-
-                        List<Chat> Groups = Database.GetGroups(Message.ClientId);
-                        MessagePackage Send = new MessagePackage();
-                        Send.MessageType = MessageType.Message_Confirmation;
-                        Send.ClientId = Message.ClientId;
-                        Send.Informations = new List<string>();
-
-                        foreach(Chat chat in Groups)
-                        {
-                            Send.Informations.Add(chat.Name);
-                        }
-
-                        ClientMessages.Add(Send);
-
 
                     }
                     else if (Message.MessageType == MessageType.Message_DeleteUser)
                     {
                         Database.DeleteUser(Message.Informations[0], Message.Informations[1]);
-                        Confirmation(Message.ClientId);
+                        Send.MessageType = MessageType.Message_Confirmation;
 
                     }
-                    //Operations
+                    #endregion
+                    //Operate
 
                 }
-                catch
+                catch //Wrong Package Received
                 {
-                    WrongPackageReceived++;
-                    if (Message != null) { WrongFormat(Message.ClientId);}
+                    Send.MessageType = MessageType.Message_WrongFormat;
                 }
-            }
-        }
 
-        //Show to user the current information
-        public static void Show()
-        {
-            while(Run)
-            {
-                Console.WriteLine("NSM SERVER ONLINE");
-                Console.WriteLine("------------------");
-                Console.WriteLine("Current Message Packages to execute: "+(ServerMessages.Count-ServerMessages_Count));
-                Console.WriteLine("Current Message Packages to send: " +(ClientMessages.Count-ClientMessages_Count));
-                Console.WriteLine("------------------");
-                Console.WriteLine("Executed Operations: " + ExecutedOperations);
-                Console.WriteLine("Wrong Packages Received: " + WrongPackageReceived);
-                Thread.Sleep(1000);
-                Console.Clear();
+                //Send back
+                string messageClient = JsonSerializer.Serialize<MessagePackage>(Send);
+                Client.Send(Encoding.ASCII.GetBytes(messageClient), 0, messageClient.Length, SocketFlags.None);
+
             }
 
-        }
-
-        //Dispose the server
-        public static void Close()
-        {
-            Run = false;
-            ServerReader.Close();
-            ServerWriter.Close();
-            SocketStream.Close();
-            Connection.Close();
-            ServerListener.Dispose();
         }
 
     }

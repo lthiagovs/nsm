@@ -2,49 +2,40 @@
 using System.Net.Sockets;
 using System.Text.Json;
 using System.Text;
+using System.Net;
 
 namespace NSM.FORMS.CORE
 {
     public static class Client
     {
-        public static TcpClient ClientListener = new TcpClient();
-        public static NetworkStream SocketStream;
-        public static BinaryWriter ClientWriter;
-        public static BinaryReader ClientReader;
+        public static int Port = 8080;
+        public static string IPAdress = "127.0.0.1";
+
+        public static Socket ClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        public static IPEndPoint Adress = new IPEndPoint(IPAddress.Parse(IPAdress), Port);
 
         public static void Start()
         {
-            ClientListener.Connect("localhost", 4444);
-            SocketStream = ClientListener.GetStream();
-            ClientReader = new BinaryReader(SocketStream);
-            ClientWriter = new BinaryWriter(SocketStream);
 
-        }
+            ClientSocket.Connect(Adress);
 
-        public static void Close()
-        {
-            ClientReader.Close();
-            ClientWriter.Close();
-            SocketStream.Close();
-            ClientListener.Dispose();
         }
 
         public static MessagePackage Listen()
         {
-
-            string Json = Client.ClientReader.ReadString();
-            MessagePackage Message = JsonSerializer.Deserialize<MessagePackage>(Json);
-            return Message;
-
+            byte[] MsgFromServer = new byte[1024];
+            int size = Client.ClientSocket.Receive(MsgFromServer);
+            string json = (Encoding.ASCII.GetString(MsgFromServer, 0, size));
+            return JsonSerializer.Deserialize<MessagePackage>(json);
         }
 
-        public static void Send(MessagePackage MessagePackage)
+        public static void Send(MessagePackage Message)
         {
-
-            string JsonMessage = JsonSerializer.Serialize<MessagePackage>(MessagePackage);
-            Client.ClientWriter.Write(JsonMessage);
-
+            string messageClient = JsonSerializer.Serialize<MessagePackage>(Message);
+            Client.ClientSocket.Send(Encoding.ASCII.GetBytes(messageClient), 0, messageClient.Length, SocketFlags.None);
         }
+
+
 
     }
 

@@ -1,5 +1,7 @@
 ﻿using NSM.COMMON;
 using NSM.FORMS.CORE;
+using System.Net.Sockets;
+using System.Text;
 
 namespace NSM.FORMS.Forms
 {
@@ -26,13 +28,13 @@ namespace NSM.FORMS.Forms
             messagePackage.Informations.Add(txtLogin.Text);
             messagePackage.Informations.Add(txtPassword.Text);
             messagePackage.MessageType = MessageType.Message_GetUser;
-            Client.Send(messagePackage); 
+            Client.Send(messagePackage);
 
             MessagePackage Message = Client.Listen();
 
-            if(Message.MessageType == MessageType.Message_Confirmation)
+            if (Message.MessageType == MessageType.Message_Confirmation)
             {
-                AccountForm Parent = (AccountForm) this.Parent.Parent;
+                AccountForm Parent = (AccountForm)this.Parent.Parent;
                 Parent.Close();
 
                 MessageBox.Show("Logado com sucesso.");
@@ -40,7 +42,7 @@ namespace NSM.FORMS.Forms
                 MainFormThread.SetApartmentState(ApartmentState.STA);
                 MainFormThread.Start();
             }
-            else if(Message.MessageType == MessageType.Message_Negation)
+            else if (Message.MessageType == MessageType.Message_Negation)
             {
                 MessageBox.Show("Usuario ou senha incorretos.");
             }
@@ -48,8 +50,6 @@ namespace NSM.FORMS.Forms
             {
                 MessageBox.Show("Erro interno.");
             }
-
-
 
         }
     }
