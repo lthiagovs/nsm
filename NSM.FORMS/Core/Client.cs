@@ -12,12 +12,12 @@ namespace NSM.FORMS.CORE
         public static int Port = 8080;
         public static string IPAdress = "127.0.0.1";
 
-        public static Socket ClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        public static Socket ClientSocket;
         public static IPEndPoint Adress = new IPEndPoint(IPAddress.Parse(IPAdress), Port);
 
         public static void Start()
         {
-
+            ClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             ClientSocket.Connect(Adress);
 
         }

@@ -17,7 +17,8 @@
         Message_DeleteUser,
         Message_ChangeProfilePhoto,
         Message_GetProfilePhoto,
-        Message_ChangeUserName
+        Message_ChangeUserName,
+        Message_GetAllUserNames
 
     }
 

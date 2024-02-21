@@ -45,6 +45,12 @@
             btnSendMessage = new Button();
             txtMessageContent = new TextBox();
             pnMessages = new Panel();
+            menuMain = new MenuStrip();
+            menuAccount = new ToolStripMenuItem();
+            menuLogout = new ToolStripMenuItem();
+            menuFriends = new ToolStripMenuItem();
+            menuSearch = new ToolStripMenuItem();
+            menuRemove = new ToolStripMenuItem();
             panel1.SuspendLayout();
             pnButtons.SuspendLayout();
             panel6.SuspendLayout();
@@ -52,6 +58,7 @@
             panel3.SuspendLayout();
             panel2.SuspendLayout();
             panel5.SuspendLayout();
+            menuMain.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -62,9 +69,9 @@
             panel1.Controls.Add(panel6);
             panel1.Controls.Add(pnFriends);
             panel1.Dock = DockStyle.Left;
-            panel1.Location = new Point(0, 0);
+            panel1.Location = new Point(0, 24);
             panel1.Name = "panel1";
-            panel1.Size = new Size(181, 450);
+            panel1.Size = new Size(181, 426);
             panel1.TabIndex = 0;
             // 
             // pnButtons
@@ -157,9 +164,9 @@
             panel3.Controls.Add(panel2);
             panel3.Controls.Add(pnMessages);
             panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(181, 0);
+            panel3.Location = new Point(181, 24);
             panel3.Name = "panel3";
-            panel3.Size = new Size(619, 450);
+            panel3.Size = new Size(619, 426);
             panel3.TabIndex = 2;
             // 
             // panel2
@@ -167,7 +174,7 @@
             panel2.Controls.Add(panel5);
             panel2.Controls.Add(txtMessageContent);
             panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(0, 389);
+            panel2.Location = new Point(0, 365);
             panel2.Name = "panel2";
             panel2.Size = new Size(617, 59);
             panel2.TabIndex = 4;
@@ -223,8 +230,53 @@
             pnMessages.Dock = DockStyle.Fill;
             pnMessages.Location = new Point(0, 0);
             pnMessages.Name = "pnMessages";
-            pnMessages.Size = new Size(617, 448);
+            pnMessages.Size = new Size(617, 424);
             pnMessages.TabIndex = 3;
+            // 
+            // menuMain
+            // 
+            menuMain.BackColor = SystemColors.ActiveCaption;
+            menuMain.Items.AddRange(new ToolStripItem[] { menuAccount, menuFriends });
+            menuMain.Location = new Point(0, 0);
+            menuMain.Name = "menuMain";
+            menuMain.Size = new Size(800, 24);
+            menuMain.TabIndex = 3;
+            menuMain.Text = "menuStrip1";
+            // 
+            // menuAccount
+            // 
+            menuAccount.DropDownItems.AddRange(new ToolStripItem[] { menuLogout });
+            menuAccount.Name = "menuAccount";
+            menuAccount.Size = new Size(51, 20);
+            menuAccount.Text = "Conta";
+            // 
+            // menuLogout
+            // 
+            menuLogout.Name = "menuLogout";
+            menuLogout.Size = new Size(93, 22);
+            menuLogout.Text = "Sair";
+            menuLogout.Click += menuLogout_Click;
+            // 
+            // menuFriends
+            // 
+            menuFriends.DropDownItems.AddRange(new ToolStripItem[] { menuSearch, menuRemove });
+            menuFriends.Name = "menuFriends";
+            menuFriends.Size = new Size(60, 20);
+            menuFriends.Text = "Amigos";
+            // 
+            // menuSearch
+            // 
+            menuSearch.Name = "menuSearch";
+            menuSearch.Size = new Size(180, 22);
+            menuSearch.Text = "Procurar";
+            menuSearch.Click += menuSearch_Click;
+            // 
+            // menuRemove
+            // 
+            menuRemove.Name = "menuRemove";
+            menuRemove.Size = new Size(180, 22);
+            menuRemove.Text = "Remover";
+            menuRemove.Click += menuRemove_Click;
             // 
             // MainForm
             // 
@@ -233,6 +285,7 @@
             ClientSize = new Size(800, 450);
             Controls.Add(panel3);
             Controls.Add(panel1);
+            Controls.Add(menuMain);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "NSM";
@@ -249,7 +302,10 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             panel5.ResumeLayout(false);
+            menuMain.ResumeLayout(false);
+            menuMain.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -272,5 +328,11 @@
         private Panel pnButtons;
         private Panel panel2;
         private Panel panel5;
+        private MenuStrip menuMain;
+        private ToolStripMenuItem menuAccount;
+        private ToolStripMenuItem menuLogout;
+        private ToolStripMenuItem menuFriends;
+        private ToolStripMenuItem menuSearch;
+        private ToolStripMenuItem menuRemove;
     }
 }
