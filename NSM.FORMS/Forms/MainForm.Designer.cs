@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             panel1 = new Panel();
             panel6 = new Panel();
             lbPhoto = new PictureBox();
@@ -41,7 +42,6 @@
             btnUpdateMessages = new Button();
             btnSendMessage = new Button();
             txtMessageContent = new TextBox();
-            panel2 = new Panel();
             panel1.SuspendLayout();
             panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)lbPhoto).BeginInit();
@@ -57,7 +57,7 @@
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(110, 450);
+            panel1.Size = new Size(181, 450);
             panel1.TabIndex = 0;
             // 
             // panel6
@@ -70,17 +70,18 @@
             panel6.Dock = DockStyle.Top;
             panel6.Location = new Point(0, 0);
             panel6.Name = "panel6";
-            panel6.Size = new Size(108, 179);
+            panel6.Size = new Size(179, 217);
             panel6.TabIndex = 6;
             // 
             // lbPhoto
             // 
             lbPhoto.BackColor = SystemColors.ControlLightLight;
             lbPhoto.BorderStyle = BorderStyle.FixedSingle;
+            lbPhoto.Cursor = Cursors.Hand;
             lbPhoto.InitialImage = null;
             lbPhoto.Location = new Point(3, 3);
             lbPhoto.Name = "lbPhoto";
-            lbPhoto.Size = new Size(100, 86);
+            lbPhoto.Size = new Size(171, 159);
             lbPhoto.SizeMode = PictureBoxSizeMode.StretchImage;
             lbPhoto.TabIndex = 0;
             lbPhoto.TabStop = false;
@@ -88,18 +89,21 @@
             // 
             // btnSearchFriends
             // 
-            btnSearchFriends.Location = new Point(3, 147);
+            btnSearchFriends.Cursor = Cursors.Hand;
+            btnSearchFriends.FlatAppearance.BorderSize = 0;
+            btnSearchFriends.FlatStyle = FlatStyle.Flat;
+            btnSearchFriends.Image = (Image)resources.GetObject("btnSearchFriends.Image");
+            btnSearchFriends.Location = new Point(148, 191);
             btnSearchFriends.Name = "btnSearchFriends";
-            btnSearchFriends.Size = new Size(75, 23);
+            btnSearchFriends.Size = new Size(26, 23);
             btnSearchFriends.TabIndex = 5;
-            btnSearchFriends.Text = "Buscar";
             btnSearchFriends.UseVisualStyleBackColor = true;
             btnSearchFriends.Click += btnSearchFriends_Click;
             // 
             // lbName
             // 
             lbName.AutoSize = true;
-            lbName.Location = new Point(3, 106);
+            lbName.Location = new Point(7, 165);
             lbName.Name = "lbName";
             lbName.Size = new Size(47, 15);
             lbName.TabIndex = 1;
@@ -109,15 +113,15 @@
             // panel4
             // 
             panel4.BackColor = SystemColors.ActiveCaptionText;
-            panel4.Location = new Point(3, 124);
+            panel4.Location = new Point(4, 183);
             panel4.Name = "panel4";
-            panel4.Size = new Size(102, 2);
+            panel4.Size = new Size(170, 2);
             panel4.TabIndex = 2;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(3, 129);
+            label1.Location = new Point(3, 195);
             label1.Name = "label1";
             label1.Size = new Size(51, 15);
             label1.TabIndex = 3;
@@ -127,9 +131,9 @@
             // 
             pnFriends.AutoScroll = true;
             pnFriends.Dock = DockStyle.Bottom;
-            pnFriends.Location = new Point(0, 185);
+            pnFriends.Location = new Point(0, 223);
             pnFriends.Name = "pnFriends";
-            pnFriends.Size = new Size(108, 263);
+            pnFriends.Size = new Size(179, 225);
             pnFriends.TabIndex = 4;
             // 
             // panel3
@@ -140,22 +144,27 @@
             panel3.Controls.Add(btnSendMessage);
             panel3.Controls.Add(txtMessageContent);
             panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(110, 0);
+            panel3.Location = new Point(181, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(580, 450);
+            panel3.Size = new Size(619, 450);
             panel3.TabIndex = 2;
             // 
             // pnMessages
             // 
             pnMessages.AutoScroll = true;
+            pnMessages.BorderStyle = BorderStyle.FixedSingle;
             pnMessages.Location = new Point(5, 11);
             pnMessages.Name = "pnMessages";
-            pnMessages.Size = new Size(568, 372);
+            pnMessages.Size = new Size(588, 372);
             pnMessages.TabIndex = 3;
             // 
             // btnUpdateMessages
             // 
-            btnUpdateMessages.Location = new Point(486, 389);
+            btnUpdateMessages.Cursor = Cursors.Hand;
+            btnUpdateMessages.FlatAppearance.BorderSize = 0;
+            btnUpdateMessages.FlatStyle = FlatStyle.Flat;
+            btnUpdateMessages.Image = Properties.Resources.refresh;
+            btnUpdateMessages.Location = new Point(518, 389);
             btnUpdateMessages.Name = "btnUpdateMessages";
             btnUpdateMessages.Size = new Size(35, 30);
             btnUpdateMessages.TabIndex = 2;
@@ -164,7 +173,11 @@
             // 
             // btnSendMessage
             // 
-            btnSendMessage.Location = new Point(527, 389);
+            btnSendMessage.Cursor = Cursors.Hand;
+            btnSendMessage.FlatAppearance.BorderSize = 0;
+            btnSendMessage.FlatStyle = FlatStyle.Flat;
+            btnSendMessage.Image = (Image)resources.GetObject("btnSendMessage.Image");
+            btnSendMessage.Location = new Point(559, 389);
             btnSendMessage.Name = "btnSendMessage";
             btnSendMessage.Size = new Size(35, 30);
             btnSendMessage.TabIndex = 1;
@@ -176,18 +189,8 @@
             txtMessageContent.Dock = DockStyle.Bottom;
             txtMessageContent.Location = new Point(0, 425);
             txtMessageContent.Name = "txtMessageContent";
-            txtMessageContent.Size = new Size(578, 23);
+            txtMessageContent.Size = new Size(617, 23);
             txtMessageContent.TabIndex = 0;
-            // 
-            // panel2
-            // 
-            panel2.BackColor = SystemColors.ActiveCaption;
-            panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Dock = DockStyle.Right;
-            panel2.Location = new Point(690, 0);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(110, 450);
-            panel2.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -195,7 +198,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(panel3);
-            Controls.Add(panel2);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -203,6 +205,7 @@
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "NSM";
+            FormClosed += MainForm_FormClosed;
             Load += MainForm_Load;
             panel1.ResumeLayout(false);
             panel6.ResumeLayout(false);
@@ -223,13 +226,12 @@
         private Button btnSendMessage;
         private TextBox txtMessageContent;
         private Panel pnMessages;
-        private Panel pnFriends;
-        private Panel panel2;
         public Label lbName;
         public string LoginData;
         public string PasswordData;
         private Button btnSearchFriends;
         private Panel panel6;
         private PictureBox lbPhoto;
+        public Panel pnFriends;
     }
 }

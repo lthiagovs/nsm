@@ -54,11 +54,10 @@
             // 
             // lbName
             // 
-            lbName.AutoSize = true;
             lbName.ForeColor = Color.FromArgb(0, 192, 0);
             lbName.Location = new Point(69, 3);
             lbName.Name = "lbName";
-            lbName.Size = new Size(47, 15);
+            lbName.Size = new Size(343, 15);
             lbName.TabIndex = 2;
             lbName.Text = "_name_";
             // 
@@ -73,7 +72,6 @@
             Size = new Size(415, 70);
             ((System.ComponentModel.ISupportInitialize)pbPhoto).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion

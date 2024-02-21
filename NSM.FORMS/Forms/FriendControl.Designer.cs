@@ -35,6 +35,7 @@
             // 
             // pbPhoto
             // 
+            pbPhoto.Cursor = Cursors.Hand;
             pbPhoto.Location = new Point(3, 3);
             pbPhoto.Name = "pbPhoto";
             pbPhoto.Size = new Size(50, 50);
@@ -46,9 +47,10 @@
             // 
             // lbName
             // 
+            lbName.Cursor = Cursors.Hand;
             lbName.Location = new Point(59, 3);
             lbName.Name = "lbName";
-            lbName.Size = new Size(47, 50);
+            lbName.Size = new Size(86, 50);
             lbName.TabIndex = 1;
             lbName.Text = "_name_";
             lbName.DoubleClick += lbName_DoubleClick;
@@ -63,7 +65,7 @@
             Controls.Add(lbName);
             Controls.Add(pbPhoto);
             Name = "FriendControl";
-            Size = new Size(108, 58);
+            Size = new Size(148, 58);
             MouseEnter += FriendControl_MouseEnter;
             MouseLeave += FriendControl_MouseLeave;
             ((System.ComponentModel.ISupportInitialize)pbPhoto).EndInit();

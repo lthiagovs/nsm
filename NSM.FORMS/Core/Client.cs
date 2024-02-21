@@ -3,6 +3,7 @@ using System.Net.Sockets;
 using System.Text.Json;
 using System.Text;
 using System.Net;
+using NSM.FORMS.Forms;
 
 namespace NSM.FORMS.CORE
 {
@@ -34,7 +35,6 @@ namespace NSM.FORMS.CORE
             string messageClient = JsonSerializer.Serialize<MessagePackage>(Message);
             Client.ClientSocket.Send(Encoding.ASCII.GetBytes(messageClient), 0, messageClient.Length, SocketFlags.None);
         }
-
 
 
     }

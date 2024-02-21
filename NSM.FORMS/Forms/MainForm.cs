@@ -6,8 +6,7 @@ namespace NSM.FORMS.Forms
 
     public partial class MainForm : Form
     {
-
-        private int Id { get; set; }
+        public int Id { get; set; }
         private int CurrentChatId { get; set; }
         public int CurrentFriendId { get; set; }
         private string Name { get; set; }
@@ -56,9 +55,9 @@ namespace NSM.FORMS.Forms
                 string friendName = "";
 
                 //Get friend image
-                foreach(FriendControl friend in pnFriends.Controls)
+                foreach (FriendControl friend in pnFriends.Controls)
                 {
-                    if(friend.FriendID==FriendId)
+                    if (friend.FriendID == FriendId)
                     {
                         friendPhoto = friend.pbPhoto.Image;
                         friendName = friend.lbName.Text;
@@ -76,7 +75,7 @@ namespace NSM.FORMS.Forms
                     MessageControl messageControl = new MessageControl();
 
                     //Draw Photos and Name
-                    if (Messages[i].Contains(this.Id+""))
+                    if (Messages[i].Contains(this.Id + ""))
                     {
                         messageControl.pbPhoto.Image = this.lbPhoto.Image;
                         messageControl.lbName.Text = this.Name;
@@ -84,11 +83,12 @@ namespace NSM.FORMS.Forms
                         //Adjust Controls
                         messageControl.lbText.Location = new Point(3, 18);
                         messageControl.pbPhoto.Location = new Point(352, 3);
-                        messageControl.lbName.Location = new Point(280, 3);
+                        messageControl.lbName.Location = new Point(3, 3);
                         messageControl.lbText.TextAlign = ContentAlignment.TopRight;
+                        messageControl.lbName.TextAlign = ContentAlignment.TopRight;
                         messagePosX = 153;
                     }
-                    else if(friendPhoto!=null)
+                    else if (friendPhoto != null)
                     {
                         messageControl.pbPhoto.Image = friendPhoto;
                         messageControl.lbName.Text = friendName;
@@ -101,7 +101,7 @@ namespace NSM.FORMS.Forms
                     //Draw Photos and Name
 
                     messageControl.lbText.Text = Messages[i];
-                    messageControl.Location = new Point(messagePosX, messagePosY+20);
+                    messageControl.Location = new Point(messagePosX, messagePosY + 20);
                     messagePosX = 0;
                     messagePosY += 70;
                     pnMessages.Controls.Add(messageControl);
@@ -124,6 +124,24 @@ namespace NSM.FORMS.Forms
 
         }
 
+        //Verifies if you already have a friend
+        private bool HaveFriend(string name)
+        {
+            bool result = false;
+
+            foreach(FriendControl fc in pnFriends.Controls)
+            {
+                if(fc.lbName.Text.Equals(name))
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+
+        }
+
         //Send a message to the current chat
         private void SendMessage(int ChatId, string Content)
         {
@@ -137,7 +155,7 @@ namespace NSM.FORMS.Forms
                     Message.ClientId = this.Id;
                     Message.Informations = new List<string>();
                     Message.Informations.Add(ChatId + "");
-                    Message.Informations.Add(this.Id+"&"+Content);
+                    Message.Informations.Add(this.Id + "&" + Content);
                     Client.Send(Message);
 
                     MessagePackage Received = Client.Listen();
@@ -171,6 +189,7 @@ namespace NSM.FORMS.Forms
             }
             this.Messages = new List<string>();
             this.CurrentChatId = -1;
+            this.CurrentFriendId = -1;
 
             //Ask to server all informations
             MessagePackage Message = new MessagePackage();
@@ -217,6 +236,7 @@ namespace NSM.FORMS.Forms
                 {
                     Image image = Image.FromStream(ms);
                     this.lbPhoto.Image = image;
+                    this.Photo = imgBytes;
                 }
 
 
@@ -255,7 +275,7 @@ namespace NSM.FORMS.Forms
                     }
 
                 }
-                
+
 
                 reader.Close();
                 friendList.Close();
@@ -271,65 +291,72 @@ namespace NSM.FORMS.Forms
             SearchFriends.ShowDialog();
             if (SearchFriends.DialogResult == DialogResult.OK)
             {
-                //Search for the friend
-                MessagePackage Message = new MessagePackage();
-                Message.MessageType = MessageType.Message_SearchUser;
-                Message.ClientId = this.Id;
-                Message.Informations = new List<string>();
-                Message.Informations.Add(SearchFriends.txtName.Text);
-                Client.Send(Message);
-
-                //Wait
-                MessagePackage Received = Client.Listen();
-
-                if (Received.MessageType == MessageType.Message_Confirmation)
+                if (!HaveFriend(SearchFriends.txtName.Text))
                 {
-                    //Add friend to interface
-                    MessageBox.Show("Amigo: " + SearchFriends.txtName.Text + " encontrado!");
-                    FriendControl Friend = new FriendControl(Convert.ToInt32(Received.Informations[0]));
-                    Friend.Location = new Point(0, this.FriendListY);
-                    FriendListY += Friend.Size.Height;
-                    Friend.lbName.Text = SearchFriends.txtName.Text;
-                    pnFriends.Controls.Add(Friend);
+                    //Search for the friend
+                    MessagePackage Message = new MessagePackage();
+                    Message.MessageType = MessageType.Message_SearchUser;
+                    Message.ClientId = this.Id;
+                    Message.Informations = new List<string>();
+                    Message.Informations.Add(SearchFriends.txtName.Text);
+                    Client.Send(Message);
 
-                    //Send Chat Request
-                    MessagePackage ChatMessage = new MessagePackage();
-                    ChatMessage.MessageType = MessageType.Message_CreateFriendChat;
-                    ChatMessage.ClientId = this.Id;
-                    ChatMessage.Informations = new List<string>();
-                    ChatMessage.Informations.Add(Received.Informations[0]);
-                    Client.Send(ChatMessage);
-                    Received = Client.Listen();
-                    if (Received.MessageType != MessageType.Message_Confirmation)
+                    //Wait
+                    MessagePackage Received = Client.Listen();
+
+                    if (Received.MessageType == MessageType.Message_Confirmation)
                     {
-                        MessageBox.Show("Erro interno ao criar chat...");
+                        //Add friend to interface
+                        MessageBox.Show("Amigo: " + SearchFriends.txtName.Text + " encontrado!");
+                        FriendControl Friend = new FriendControl(Convert.ToInt32(Received.Informations[0]));
+                        Friend.Location = new Point(0, this.FriendListY);
+                        FriendListY += Friend.Size.Height;
+                        Friend.lbName.Text = SearchFriends.txtName.Text;
+                        pnFriends.Controls.Add(Friend);
+
+                        //Send Chat Request
+                        MessagePackage ChatMessage = new MessagePackage();
+                        ChatMessage.MessageType = MessageType.Message_CreateFriendChat;
+                        ChatMessage.ClientId = this.Id;
+                        ChatMessage.Informations = new List<string>();
+                        ChatMessage.Informations.Add(Received.Informations[0]);
+                        Client.Send(ChatMessage);
+                        Received = Client.Listen();
+                        if (Received.MessageType != MessageType.Message_Confirmation)
+                        {
+                            MessageBox.Show("Erro interno ao criar chat...");
+                        }
+                        //Save friends in a file
+                        if (!File.Exists("friendlist.bin"))
+                        {
+                            File.Create("friendlist.bin").Close();
+                        }
+                        Stream friendFile = File.Open("friendlist.bin", FileMode.Open);
+                        BinaryWriter writer = new BinaryWriter(friendFile);
+
+                        foreach (FriendControl fc in pnFriends.Controls)
+                        {
+                            writer.Write(fc.lbName.Text);
+                        }
+                        writer.Close();
+                        friendFile.Close();
+
+
                     }
-                    //Save friends in a file
-                    if(!File.Exists("friendlist.bin"))
+                    else
                     {
-                        File.Create("friendlist.bin").Close();
+                        MessageBox.Show("Amigo não encontrado...");
                     }
-                    Stream friendFile = File.Open("friendlist.bin", FileMode.Open);
-                    BinaryWriter writer = new BinaryWriter(friendFile);
-
-                    foreach(FriendControl fc in pnFriends.Controls)
-                    {
-                        writer.Write(fc.lbName.Text);
-                    }
-                    writer.Close();
-                    friendFile.Close();
-
-
                 }
                 else
                 {
-                    MessageBox.Show("Amigo não encontrado...");
+                    MessageBox.Show("Este amigo já está na sua lista...");
                 }
 
             }
 
         }
-  
+
         private void btnSendMessage_Click(object sender, EventArgs e)
         {
             SendMessage(this.CurrentChatId, this.txtMessageContent.Text);
@@ -359,14 +386,14 @@ namespace NSM.FORMS.Forms
                 Message.MessageType = MessageType.Message_ChangeProfilePhoto;
                 Message.Informations = new List<string>();
                 //Enconding image bytes in to string
-                Message.Informations.Add(Convert.ToBase64String(PFPByte)) ;
+                Message.Informations.Add(Convert.ToBase64String(PFPByte));
                 Message.ClientId = this.Id;
 
                 //Send and Await
                 Client.Send(Message);
                 MessagePackage Received = Client.Listen();
 
-                if(Received.MessageType != MessageType.Message_Confirmation)
+                if (Received.MessageType != MessageType.Message_Confirmation)
                 {
                     MessageBox.Show("Erro ao atualizar dados no servidor...");
                 }
@@ -390,7 +417,11 @@ namespace NSM.FORMS.Forms
         {
 
         }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+        }
     }
-    
+
 
 }
