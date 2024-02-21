@@ -88,7 +88,7 @@ namespace NSM.FORMS.Forms
                         messageControl.lbName.Location = new Point(3, 3);
                         messageControl.lbText.TextAlign = ContentAlignment.TopRight;
                         messageControl.lbName.TextAlign = ContentAlignment.TopRight;
-                        messagePosX = 153;
+                        messagePosX = pnMessages.Size.Width - 450;
                     }
                     else if (friendPhoto != null)
                     {
@@ -474,6 +474,14 @@ namespace NSM.FORMS.Forms
             }
             writer.Close();
             friendFile.Close();
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if(CurrentFriendId!=-1)
+            {
+                LoadMessages(CurrentFriendId);
+            }
         }
     }
 
