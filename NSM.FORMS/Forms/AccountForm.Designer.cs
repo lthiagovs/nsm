@@ -43,28 +43,29 @@
             menu.Items.AddRange(new ToolStripItem[] { menuAccount });
             menu.Location = new Point(0, 0);
             menu.Name = "menu";
-            menu.Size = new Size(314, 24);
+            menu.Size = new Size(314, 28);
             menu.TabIndex = 0;
             menu.Text = "menuStrip1";
             // 
             // menuAccount
             // 
             menuAccount.DropDownItems.AddRange(new ToolStripItem[] { menuLogin, menuRegister });
+            menuAccount.Image = (Image)resources.GetObject("menuAccount.Image");
             menuAccount.Name = "menuAccount";
-            menuAccount.Size = new Size(51, 20);
+            menuAccount.Size = new Size(71, 24);
             menuAccount.Text = "Conta";
             // 
             // menuLogin
             // 
             menuLogin.Name = "menuLogin";
-            menuLogin.Size = new Size(120, 22);
+            menuLogin.Size = new Size(180, 22);
             menuLogin.Text = "Entrar";
             menuLogin.Click += menuLogin_Click;
             // 
             // menuRegister
             // 
             menuRegister.Name = "menuRegister";
-            menuRegister.Size = new Size(120, 22);
+            menuRegister.Size = new Size(180, 22);
             menuRegister.Text = "Registrar";
             menuRegister.Click += menuRegister_Click;
             // 
