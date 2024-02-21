@@ -32,6 +32,8 @@ namespace NSM.FORMS.Forms
                 lbPhoto.Image = image;
             }
         }
+
+        //Load all messages from a friend chat
         public void LoadMessages(int FriendId)
         {
             //Preparing Request
@@ -55,9 +57,7 @@ namespace NSM.FORMS.Forms
                 //+70
                 int messagePosY = 0;
                 pnMessages.Controls.Clear();
-
-                this.CurrentChatId = Convert.ToInt32(Received.Informations[0]);
-
+                CurrentChatId = Convert.ToInt32(Received.Informations[0]);
                 for (int i = 1; i < Messages.Count; i++)
                 {
                     MessageControl messageControl = new MessageControl();
@@ -67,6 +67,11 @@ namespace NSM.FORMS.Forms
                     messageControl.pbPhoto.ImageLocation = "";
                     pnMessages.Controls.Add(messageControl);
                 }
+
+                //Scroll the bar
+                pnMessages.VerticalScroll.Value = pnMessages.VerticalScroll.Maximum;
+                pnMessages.PerformLayout();
+                this.txtMessageContent.Text = "";
 
             }
             else
@@ -96,53 +101,15 @@ namespace NSM.FORMS.Forms
                     Message.Informations.Add(Content);
                     Client.Send(Message);
 
-                }
-
-            }
-            else
-            {
-                MessageBox.Show("Nenhum chat carregado...");
-            }
-
-        }
-
-        //Update messages from the current chat
-        private void UpdateMessages(int ChatId)
-        {
-            if (ChatId != -1)
-            {
-                //Send Request
-                MessagePackage Message = new MessagePackage();
-                Message.ClientId = this.Id;
-                Message.MessageType = MessageType.Message_GetChatMessages;
-                Message.Informations = new List<string>();
-                Message.Informations.Add(ChatId + "");
-                Client.Send(Message);
-
-                //Wait
-                MessagePackage Received = Client.Listen();
-
-                //Load messages to interface
-                if (Received.MessageType == MessageType.Message_Confirmation)
-                {
-
-                    //+70
-                    int messagePosY = 0;
-                    pnMessages.Controls.Clear();
-                    Messages.Clear();
-                    Messages = Received.Informations;
-
-                    for (int i = 0; i < Messages.Count; i++)
+                    MessagePackage Received = Client.Listen();
+                    if (Received.MessageType != MessageType.Message_Confirmation)
                     {
-                        MessageControl messageControl = new MessageControl();
-                        messageControl.lbText.Text = Messages[i];
-                        messageControl.Location = new Point(0, messagePosY);
-                        messagePosY += 70;
-                        messageControl.pbPhoto.ImageLocation = "";
-                        pnMessages.Controls.Add(messageControl);
+                        MessageBox.Show("Falha ao enviar mensagem");
+
                     }
 
                 }
+
             }
             else
             {
@@ -233,6 +200,11 @@ namespace NSM.FORMS.Forms
                     ChatMessage.Informations = new List<string>();
                     ChatMessage.Informations.Add(Received.Informations[0]);
                     Client.Send(ChatMessage);
+                    Received = Client.Listen();
+                    if (Received.MessageType != MessageType.Message_Confirmation)
+                    {
+                        MessageBox.Show("Erro interno ao criar chat...");
+                    }
                 }
                 else
                 {
@@ -242,18 +214,17 @@ namespace NSM.FORMS.Forms
             }
 
         }
-
         private void btnSendMessage_Click(object sender, EventArgs e)
         {
             SendMessage(this.CurrentChatId, this.txtMessageContent.Text);
-            Thread.Sleep(200);
-            UpdateMessages(this.CurrentChatId);
+            LoadMessages(this.CurrentFriendId);
         }
 
         private void btnUpdateMessages_Click(object sender, EventArgs e)
         {
-            UpdateMessages(this.CurrentChatId);
+            LoadMessages(this.CurrentFriendId);
         }
+
         private void lbPhoto_Click(object sender, EventArgs e)
         {
 
