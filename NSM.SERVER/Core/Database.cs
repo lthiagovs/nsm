@@ -495,6 +495,22 @@ namespace NSM.SERVER.CORE
                 return oldName;
             }
         }
+        public static List<string> GetAllUserNames()
+        {
+            List<string> names = new List<string>();
+
+            using(DatabaseContext db =new DatabaseContext())
+            {
+
+                foreach(User user in db.User)
+                {
+                    names.Add(user.Name);
+                }
+
+            }
+
+            return names;
+        }
 
     }
 }

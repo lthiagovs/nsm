@@ -242,6 +242,13 @@ namespace NSM.SERVER.CORE
                             Send.MessageType = MessageType.Message_Negation;
                         }
                     }
+                    else if (Message.MessageType == MessageType.Message_GetAllUserNames)
+                    {
+
+                        Send.MessageType = MessageType.Message_Confirmation;
+                        Send.Informations = Database.GetAllUserNames();
+
+                    }
                     #endregion
                     //Operate
 
