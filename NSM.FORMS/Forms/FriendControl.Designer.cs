@@ -48,6 +48,8 @@
             // lbName
             // 
             lbName.Cursor = Cursors.Hand;
+            lbName.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbName.ForeColor = Color.Black;
             lbName.Location = new Point(59, 3);
             lbName.Name = "lbName";
             lbName.Size = new Size(86, 50);
@@ -61,11 +63,10 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BorderStyle = BorderStyle.FixedSingle;
             Controls.Add(lbName);
             Controls.Add(pbPhoto);
             Name = "FriendControl";
-            Size = new Size(148, 58);
+            Size = new Size(160, 60);
             MouseEnter += FriendControl_MouseEnter;
             MouseLeave += FriendControl_MouseLeave;
             ((System.ComponentModel.ISupportInitialize)pbPhoto).EndInit();
