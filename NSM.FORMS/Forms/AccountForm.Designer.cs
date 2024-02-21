@@ -38,10 +38,12 @@
             // 
             // menu
             // 
+            menu.ImageScalingSize = new Size(20, 20);
             menu.Items.AddRange(new ToolStripItem[] { menuAccount });
             menu.Location = new Point(0, 0);
             menu.Name = "menu";
-            menu.Size = new Size(314, 24);
+            menu.Padding = new Padding(7, 3, 0, 3);
+            menu.Size = new Size(359, 30);
             menu.TabIndex = 0;
             menu.Text = "menuStrip1";
             // 
@@ -49,45 +51,47 @@
             // 
             menuAccount.DropDownItems.AddRange(new ToolStripItem[] { menuLogin, menuRegister });
             menuAccount.Name = "menuAccount";
-            menuAccount.Size = new Size(51, 20);
+            menuAccount.Size = new Size(62, 24);
             menuAccount.Text = "Conta";
             // 
             // menuLogin
             // 
             menuLogin.Name = "menuLogin";
-            menuLogin.Size = new Size(120, 22);
+            menuLogin.Size = new Size(151, 26);
             menuLogin.Text = "Entrar";
             menuLogin.Click += menuLogin_Click;
             // 
             // menuRegister
             // 
             menuRegister.Name = "menuRegister";
-            menuRegister.Size = new Size(120, 22);
+            menuRegister.Size = new Size(151, 26);
             menuRegister.Text = "Registrar";
             menuRegister.Click += menuRegister_Click;
             // 
             // pnMain
             // 
-            pnMain.Dock = DockStyle.Fill;
-            pnMain.Location = new Point(0, 24);
+            pnMain.BackColor = SystemColors.ButtonHighlight;
+            pnMain.Location = new Point(0, 33);
             pnMain.Name = "pnMain";
-            pnMain.Size = new Size(314, 417);
-            pnMain.TabIndex = 1;
+            pnMain.Size = new Size(359, 556);
+            pnMain.TabIndex = 2;
             // 
             // AccountForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(314, 441);
+            ClientSize = new Size(359, 593);
             Controls.Add(pnMain);
             Controls.Add(menu);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menu;
+            Margin = new Padding(3, 4, 3, 4);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "AccountForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "NSM";
+            Load += AccountForm_Load_1;
             menu.ResumeLayout(false);
             menu.PerformLayout();
             ResumeLayout(false);

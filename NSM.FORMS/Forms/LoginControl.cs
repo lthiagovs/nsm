@@ -17,7 +17,7 @@ namespace NSM.FORMS.Forms
 
         private void OpenMainForm(string LoginData, string PasswordData)
         {
-            Application.Run(new MainForm(LoginData,PasswordData));
+            Application.Run(new MainForm(LoginData, PasswordData));
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -51,6 +51,19 @@ namespace NSM.FORMS.Forms
                 MessageBox.Show("Erro interno.");
             }
 
+        }
+
+        private void LoginControl_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                btnLogin_Click(null, null);
+            }
         }
     }
 }

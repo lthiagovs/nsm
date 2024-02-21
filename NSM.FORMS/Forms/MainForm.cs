@@ -1,5 +1,6 @@
 ﻿using NSM.COMMON;
 using NSM.FORMS.CORE;
+using System.Xml.Linq;
 
 namespace NSM.FORMS.Forms
 {
@@ -8,16 +9,28 @@ namespace NSM.FORMS.Forms
     {
 
         private int Id { get; set; }
-        public int CurrentFriendId { get; set; }
-        public int CurrentChatId { get; set; }
+        private int CurrentChatId { get; set; }
         private string Name { get; set; }
-        private string Photo { get; set; }
+
+        private byte[] Photo { get; set; } = File.ReadAllBytes("anonymAvatar.jpg");
 
         private List<string> Messages { get; set; }
 
         private int FriendListY = 0;
 
         //Load all messages from a friend chat
+
+        public void UpdatePhotoAndName(string name, byte[] imageBytes)
+        {
+            this.Name = name;
+            this.Photo = imageBytes;
+            lbName.Text = this.Name;
+            using (MemoryStream ms = new MemoryStream(imageBytes))
+            {
+                Image image = Image.FromStream(ms);
+                lbPhoto.Image = image;
+            }
+        }
         public void LoadMessages(int FriendId)
         {
             //Preparing Request
@@ -41,7 +54,9 @@ namespace NSM.FORMS.Forms
                 //+70
                 int messagePosY = 0;
                 pnMessages.Controls.Clear();
-                CurrentChatId = Convert.ToInt32(Received.Informations[0]);
+
+                this.CurrentChatId = Convert.ToInt32(Received.Informations[0]);
+
                 for (int i = 1; i < Messages.Count; i++)
                 {
                     MessageControl messageControl = new MessageControl();
@@ -51,11 +66,6 @@ namespace NSM.FORMS.Forms
                     messageControl.pbPhoto.ImageLocation = "";
                     pnMessages.Controls.Add(messageControl);
                 }
-
-                //Scroll the bar
-                pnMessages.VerticalScroll.Value = pnMessages.VerticalScroll.Maximum;
-                pnMessages.PerformLayout();
-                this.txtMessageContent.Text = "";
 
             }
             else
@@ -85,13 +95,6 @@ namespace NSM.FORMS.Forms
                     Message.Informations.Add(Content);
                     Client.Send(Message);
 
-                    MessagePackage Received = Client.Listen();
-                    if(Received.MessageType != MessageType.Message_Confirmation)
-                    {
-                        MessageBox.Show("Falha ao enviar mensagem");
-
-                    }
-
                 }
 
             }
@@ -102,6 +105,82 @@ namespace NSM.FORMS.Forms
 
         }
 
+        //Update messages from the current chat
+        private void UpdateMessages(int ChatId)
+        {
+            if (ChatId != -1)
+            {
+                //Send Request
+                MessagePackage Message = new MessagePackage();
+                Message.ClientId = this.Id;
+                Message.MessageType = MessageType.Message_GetChatMessages;
+                Message.Informations = new List<string>();
+                Message.Informations.Add(ChatId + "");
+                Client.Send(Message);
+
+                //Wait
+                MessagePackage Received = Client.Listen();
+
+                //Load messages to interface
+                if (Received.MessageType == MessageType.Message_Confirmation)
+                {
+
+                    //+70
+                    int messagePosY = 0;
+                    pnMessages.Controls.Clear();
+                    Messages.Clear();
+                    Messages = Received.Informations;
+
+                    for (int i = 0; i < Messages.Count; i++)
+                    {
+                        MessageControl messageControl = new MessageControl();
+                        messageControl.lbText.Text = Messages[i];
+                        messageControl.Location = new Point(0, messagePosY);
+                        messagePosY += 70;
+                        messageControl.pbPhoto.ImageLocation = "";
+                        pnMessages.Controls.Add(messageControl);
+                    }
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nenhum chat carregado...");
+            }
+
+        }
+
+        //Load groups to the interface
+        private void LoadGroups()
+        {
+            //Send
+            MessagePackage Message = new MessagePackage();
+            Message.MessageType = MessageType.Message_GetGroups;
+            Message.ClientId = this.Id;
+            Message.Informations = new List<string>();
+            Client.Send(Message);
+
+            //Await
+            MessagePackage Received = Client.Listen();
+
+            if (Received.MessageType == MessageType.Message_Confirmation)
+            {
+                //+70
+                int GroudPosY = 0;
+                for (int i = 0; i < Received.Informations.Count; i++)
+                {
+
+                    GroupControl Group = new GroupControl();
+                    Group.lbName.Text = Received.Informations[i];
+                    Group.Location = new Point(0, GroudPosY);
+                    GroudPosY += 70;
+                    pnGroups.Controls.Add(Group);
+
+                }
+
+            }
+        }
+
         public MainForm(string LoginData, string PasswordData)
         {
             //Gets Login/PasswordData
@@ -109,9 +188,12 @@ namespace NSM.FORMS.Forms
             this.PasswordData = PasswordData;
 
             InitializeComponent();
-
+            using (MemoryStream ms = new MemoryStream(this.Photo))
+            {
+                Image image = Image.FromStream(ms);
+                lbPhoto.Image = image;
+            }
             this.Messages = new List<string>();
-            this.CurrentFriendId = -1;
             this.CurrentChatId = -1;
 
             //Ask to server all informations
@@ -131,7 +213,7 @@ namespace NSM.FORMS.Forms
 
                 this.Id = Convert.ToInt32(Received.Informations[0]);
                 this.Name = Received.Informations[1];
-                this.Photo = Received.Informations[4];
+                // this.Photo = Received.Informations[4];
                 this.lbName.Text = this.Name;
 
             }
@@ -181,11 +263,6 @@ namespace NSM.FORMS.Forms
                     ChatMessage.Informations = new List<string>();
                     ChatMessage.Informations.Add(Received.Informations[0]);
                     Client.Send(ChatMessage);
-                    Received = Client.Listen();
-                    if(Received.MessageType!=MessageType.Message_Confirmation)
-                    {
-                        MessageBox.Show("Erro interno ao criar chat...");
-                    }
                 }
                 else
                 {
@@ -199,12 +276,51 @@ namespace NSM.FORMS.Forms
         private void btnSendMessage_Click(object sender, EventArgs e)
         {
             SendMessage(this.CurrentChatId, this.txtMessageContent.Text);
-            LoadMessages(this.CurrentFriendId);
+            Thread.Sleep(200);
+            UpdateMessages(this.CurrentChatId);
         }
 
         private void btnUpdateMessages_Click(object sender, EventArgs e)
         {
-            LoadMessages(this.CurrentFriendId);
+            UpdateMessages(this.CurrentChatId);
+        }
+
+        private void btnUpdateGroups_Click(object sender, EventArgs e)
+        {
+
+            LoadGroups();
+
+        }
+
+        private void lbPhoto_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbPhoto_Click_1(object sender, EventArgs e)
+        {
+            var UserProfile = new UserProfile(this.Name, this.Photo);
+            var response = UserProfile.ShowDialog();
+            if (response == DialogResult.OK)
+            {
+                byte[] PFPByte = File.ReadAllBytes(UserProfile.caminhoDaImagem);
+                UpdatePhotoAndName(UserProfile.txtName.Text, PFPByte);
+            }
+            else if (response == DialogResult.Yes)
+            {
+                this.Name = UserProfile.txtName.Text;
+                lbName.Text = this.Name;
+            }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lbName_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
