@@ -108,7 +108,7 @@
             MinimizeBox = false;
             Name = "UserProfile";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "UserProfile";
+            Text = "NSM";
             Load += UserProfile_Load;
             ((System.ComponentModel.ISupportInitialize)pcbProfilePicture).EndInit();
             ResumeLayout(false);

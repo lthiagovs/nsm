@@ -7,6 +7,7 @@ namespace NSM.FORMS.Forms
     public partial class MainForm : Form
     {
         private Thread AccountFormThread;
+
         public int Id { get; set; }
         private int CurrentChatId { get; set; }
         public int CurrentFriendId { get; set; }
@@ -340,7 +341,6 @@ namespace NSM.FORMS.Forms
                     }
 
                 }
-
 
                 reader.Close();
                 friendList.Close();
@@ -714,6 +714,8 @@ namespace NSM.FORMS.Forms
             notifications.ShowDialog();
 
         }
+
+
     }
 
 
