@@ -10,6 +10,7 @@ namespace NSM.FORMS.Forms
 
         public int Id { get; set; }
         private int CurrentChatId { get; set; }
+
         public int CurrentFriendId { get; set; }
         private string Name { get; set; }
 
@@ -97,12 +98,13 @@ namespace NSM.FORMS.Forms
                         messageControl.lbName.Text = this.Name;
 
                         //Adjust Controls
-                        messageControl.lbText.Location = new Point(3, 18);
-                        messageControl.pbPhoto.Location = new Point(352, 3);
-                        messageControl.lbName.Location = new Point(3, 3);
+                        messagePosX = pnMessages.Size.Width - messageControl.Width - messageControl.pbPhoto.Width;
+                        messagePosX = messagePosX + messagePosX / 50;
+                        messageControl.lbText.Location = new Point(0, 18);
+                        messageControl.pbPhoto.Location = new Point(messageControl.Width-messageControl.pbPhoto.Width, 3);
+                        messageControl.lbName.Location = new Point(0, 3);
                         messageControl.lbText.TextAlign = ContentAlignment.TopRight;
                         messageControl.lbName.TextAlign = ContentAlignment.TopRight;
-                        messagePosX = pnMessages.Size.Width - 450;
                     }
                     else if (friendPhoto != null)
                     {
@@ -650,7 +652,7 @@ namespace NSM.FORMS.Forms
 
         private void menuRemove_Click(object sender, EventArgs e)
         {
-            RemoveFriendForm removeFriendForm = new RemoveFriendForm();
+            RemoveFriendForm removeFriendForm = new RemoveFriendForm(this.Name);
 
             if (removeFriendForm.ShowDialog() == DialogResult.OK)
             {

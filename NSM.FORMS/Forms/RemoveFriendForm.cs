@@ -4,9 +4,13 @@
     {
 
         private List<string> friends = new List<string>();
-        public RemoveFriendForm()
+
+        private string Name {  get; set; }
+
+        public RemoveFriendForm(string Name)
         {
             InitializeComponent();
+            this.Name = Name;
 
             if(File.Exists(@"friendlist" + this.Name + ".bin"))
             {
