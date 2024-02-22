@@ -8,10 +8,10 @@
         {
             InitializeComponent();
 
-            if(File.Exists("friendlist.bin"))
+            if(File.Exists(@"friendlist" + this.Name + ".bin"))
             {
 
-                using (Stream file = File.Open("friendlist.bin", FileMode.Open))
+                using (Stream file = File.Open(@"friendlist" + this.Name + ".bin", FileMode.Open))
                 {
 
                     BinaryReader reader = new BinaryReader(file);
