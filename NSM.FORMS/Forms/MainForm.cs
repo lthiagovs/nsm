@@ -309,9 +309,9 @@ namespace NSM.FORMS.Forms
             }
 
             //LoadAllFriends
-            if (File.Exists("friendlist.bin"))
+            if (File.Exists(@"friendlist" + this.Name + ".bin"))
             {
-                Stream friendList = File.Open("friendlist.bin", FileMode.Open);
+                Stream friendList = File.Open(@"friendlist" + this.Name + ".bin", FileMode.Open);
                 BinaryReader reader = new BinaryReader(friendList);
                 while (reader.BaseStream.Position != reader.BaseStream.Length)
                 {
@@ -396,11 +396,11 @@ namespace NSM.FORMS.Forms
                                 MessageBox.Show("Erro interno ao criar chat...");
                             }
                             //Save friends in a file
-                            if (!File.Exists("friendlist.bin"))
+                            if (!File.Exists(@"friendlist" + this.Name + ".bin"))
                             {
-                                File.Create("friendlist.bin").Close();
+                                File.Create(@"friendlist" + this.Name + ".bin").Close();
                             }
-                            Stream friendFile = File.Open("friendlist.bin", FileMode.Open);
+                            Stream friendFile = File.Open(@"friendlist" + this.Name + ".bin", FileMode.Open);
                             BinaryWriter writer = new BinaryWriter(friendFile);
 
                             foreach (FriendControl fc in pnFriends.Controls)
@@ -531,11 +531,11 @@ namespace NSM.FORMS.Forms
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             //Save friends in a file
-            if (!File.Exists("friendlist.bin"))
+            if (!File.Exists(@"friendlist" + this.Name + ".bin"))
             {
-                File.Create("friendlist.bin").Close();
+                File.Create(@"friendlist" + this.Name + ".bin").Close();
             }
-            Stream friendFile = File.Open("friendlist.bin", FileMode.Open);
+            Stream friendFile = File.Open(@"friendlist" + this.Name + ".bin", FileMode.Open);
             BinaryWriter writer = new BinaryWriter(friendFile);
 
             foreach (FriendControl fc in pnFriends.Controls)
@@ -613,11 +613,11 @@ namespace NSM.FORMS.Forms
                                 MessageBox.Show("Erro interno ao criar chat...");
                             }
                             //Save friends in a file
-                            if (!File.Exists("friendlist.bin"))
+                            if (!File.Exists(@"friendlist"+this.Name+".bin"))
                             {
-                                File.Create("friendlist.bin").Close();
+                                File.Create(@"friendlist" + this.Name + ".bin").Close();
                             }
-                            Stream friendFile = File.Open("friendlist.bin", FileMode.Open);
+                            Stream friendFile = File.Open(@"friendlist" + this.Name + ".bin", FileMode.Open);
                             BinaryWriter writer = new BinaryWriter(friendFile);
 
                             foreach (FriendControl fc in pnFriends.Controls)
@@ -679,10 +679,10 @@ namespace NSM.FORMS.Forms
                 this.CurrentFriendId = -1;
                 this.lbChatName.Text = "";
 
-                File.Delete("friendlist.bin");
+                File.Delete(@"friendlist" + this.Name + ".bin");
                 //Save friends in a file
-                File.Create("friendlist.bin").Close();
-                Stream friendFile = File.Open("friendlist.bin", FileMode.Open);
+                File.Create(@"friendlist" + this.Name + ".bin").Close();
+                Stream friendFile = File.Open(@"friendlist" + this.Name + ".bin", FileMode.Open);
                 BinaryWriter writer = new BinaryWriter(friendFile);
 
                 foreach (FriendControl fc in pnFriends.Controls)
