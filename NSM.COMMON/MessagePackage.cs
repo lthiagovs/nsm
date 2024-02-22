@@ -18,7 +18,9 @@
         Message_ChangeProfilePhoto,
         Message_GetProfilePhoto,
         Message_ChangeUserName,
-        Message_GetAllUserNames
+        Message_GetAllUserNames,
+        Message_SendNotification,
+        Message_GetNotification,
 
     }
 

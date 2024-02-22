@@ -247,6 +247,28 @@ namespace NSM.SERVER.CORE
                         Send.Informations = Database.GetAllUserNames();
 
                     }
+                    else if (Message.MessageType == MessageType.Message_SendNotification)
+                    {
+                        if(Database.CreateNotification(Message.ClientId, Message.Informations[0]))
+                        {
+                            Send.MessageType = MessageType.Message_Confirmation;
+                        }
+                        else
+                        {
+                            Send.MessageType = MessageType.Message_Negation;
+                        }
+                    }
+                    else if (Message.MessageType == MessageType.Message_GetNotification)
+                    {
+                        List<Notification> notifications = Database.GetNotifications(Message.ClientId);
+
+                        foreach(Notification notification in notifications)
+                        {
+                            Send.Informations.Add(notification.Description);
+                        }
+                        Send.MessageType = MessageType.Message_Confirmation;
+
+                    }
                     #endregion
                     //Operate
 

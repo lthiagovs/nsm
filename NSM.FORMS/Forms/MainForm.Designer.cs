@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             panel1 = new Panel();
             pnButtons = new Panel();
+            panel7 = new Panel();
             btnSearchFriends = new Button();
             label1 = new Label();
             panel6 = new Panel();
@@ -53,6 +54,7 @@
             menuFriends = new ToolStripMenuItem();
             menuSearch = new ToolStripMenuItem();
             menuRemove = new ToolStripMenuItem();
+            menuNotification = new ToolStripMenuItem();
             panel1.SuspendLayout();
             pnButtons.SuspendLayout();
             panel6.SuspendLayout();
@@ -79,6 +81,7 @@
             // 
             // pnButtons
             // 
+            pnButtons.Controls.Add(panel7);
             pnButtons.Controls.Add(btnSearchFriends);
             pnButtons.Controls.Add(label1);
             pnButtons.Dock = DockStyle.Top;
@@ -87,13 +90,21 @@
             pnButtons.Size = new Size(179, 67);
             pnButtons.TabIndex = 4;
             // 
+            // panel7
+            // 
+            panel7.BackColor = SystemColors.ActiveCaptionText;
+            panel7.Location = new Point(3, 62);
+            panel7.Name = "panel7";
+            panel7.Size = new Size(170, 2);
+            panel7.TabIndex = 6;
+            // 
             // btnSearchFriends
             // 
             btnSearchFriends.Cursor = Cursors.Hand;
             btnSearchFriends.FlatAppearance.BorderSize = 0;
             btnSearchFriends.FlatStyle = FlatStyle.Flat;
             btnSearchFriends.Image = (Image)resources.GetObject("btnSearchFriends.Image");
-            btnSearchFriends.Location = new Point(148, 39);
+            btnSearchFriends.Location = new Point(147, 38);
             btnSearchFriends.Name = "btnSearchFriends";
             btnSearchFriends.Size = new Size(26, 23);
             btnSearchFriends.TabIndex = 5;
@@ -104,7 +115,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 12F);
-            label1.Location = new Point(4, 43);
+            label1.Location = new Point(3, 38);
             label1.Name = "label1";
             label1.Size = new Size(66, 21);
             label1.TabIndex = 3;
@@ -262,7 +273,7 @@
             // menuMain
             // 
             menuMain.BackColor = SystemColors.ActiveCaption;
-            menuMain.Items.AddRange(new ToolStripItem[] { menuAccount, menuFriends });
+            menuMain.Items.AddRange(new ToolStripItem[] { menuAccount, menuFriends, menuNotification });
             menuMain.Location = new Point(0, 0);
             menuMain.Name = "menuMain";
             menuMain.Size = new Size(800, 24);
@@ -306,6 +317,14 @@
             menuRemove.Size = new Size(121, 22);
             menuRemove.Text = "Remover";
             menuRemove.Click += menuRemove_Click;
+            // 
+            // menuNotification
+            // 
+            menuNotification.Image = (Image)resources.GetObject("menuNotification.Image");
+            menuNotification.Name = "menuNotification";
+            menuNotification.Size = new Size(101, 20);
+            menuNotification.Text = "Notificações";
+            menuNotification.Click += menuNotification_Click;
             // 
             // MainForm
             // 
@@ -367,5 +386,7 @@
         private ToolStripMenuItem menuRemove;
         public Label lbChatName;
         private Panel pnMainContent;
+        private ToolStripMenuItem menuNotification;
+        private Panel panel7;
     }
 }

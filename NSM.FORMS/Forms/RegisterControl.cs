@@ -54,6 +54,10 @@ namespace NSM.FORMS.Forms
                 if (Message.MessageType == MessageType.Message_Confirmation)
                 {
                     MessageBox.Show("Conta criada com sucesso!");
+                    this.txtPasswordRepeat.Text = "";
+                    this.txtLogin.Text = "";
+                    this.txtPassword.Text = "";
+                    this.txtName.Text = "";
                 }
                 else if (Message.MessageType == MessageType.Message_Negation)
                 {

@@ -12,6 +12,8 @@ namespace NSM.FORMS.Forms
         public int CurrentFriendId { get; set; }
         private string Name { get; set; }
 
+        private List<string> Notifications { get; set; }
+
         private byte[] Photo { get; set; } = File.ReadAllBytes("anonymAvatar.jpg");
 
         private List<string> Messages { get; set; }
@@ -188,11 +190,61 @@ namespace NSM.FORMS.Forms
 
         }
 
+        private void SendNotifications(int FriendID, string Content)
+        {
+            MessagePackage Message = new MessagePackage();
+            Message.ClientId = FriendID;
+            Message.Informations = new List<string>();
+            Message.MessageType = MessageType.Message_SendNotification;
+            Message.Informations.Add(Content);
+
+            Client.Send(Message);
+
+            MessagePackage Received = Client.Listen();
+
+            if (Received.MessageType != MessageType.Message_Confirmation)
+            {
+                MessageBox.Show("Erro ao enviar notificação...");
+            }
+
+
+        }
+
+        private void GetNotifications()
+        {
+
+            MessagePackage Message = new MessagePackage();
+            Message.ClientId = this.Id;
+            Message.Informations = new List<string>();
+            Message.MessageType = MessageType.Message_GetNotification;
+
+            Client.Send(Message);
+
+            MessagePackage Received = Client.Listen();
+
+            if (Received.MessageType == MessageType.Message_Confirmation)
+            {
+
+                this.Notifications.Clear();
+                foreach (string notification in Received.Informations)
+                {
+                    this.Notifications.Add(notification);
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Erro ao carregar notificações...");
+            }
+
+        }
+
         public MainForm(string LoginData, string PasswordData)
         {
             //Gets Login/PasswordData
             this.LoginData = LoginData;
             this.PasswordData = PasswordData;
+            this.Notifications = new List<string>();
 
             InitializeComponent();
             using (MemoryStream ms = new MemoryStream(this.Photo))
@@ -383,6 +435,7 @@ namespace NSM.FORMS.Forms
         private void btnSendMessage_Click(object sender, EventArgs e)
         {
             SendMessage(this.CurrentChatId, this.txtMessageContent.Text);
+            SendNotifications(this.CurrentFriendId, "Mensagem de " + this.Name);
             LoadMessages(this.CurrentFriendId);
         }
 
@@ -420,7 +473,8 @@ namespace NSM.FORMS.Forms
                     UpdatePhotoAndName(this.Name, PFPByte);
                 }
 
-                if (!this.Name.Equals(UserProfile.txtName.Text)) {
+                if (!this.Name.Equals(UserProfile.txtName.Text))
+                {
                     //Change user name...
                     Message = new MessagePackage();
                     Message.ClientId = this.Id;
@@ -650,6 +704,15 @@ namespace NSM.FORMS.Forms
                 SendMessage(this.CurrentChatId, this.txtMessageContent.Text);
                 LoadMessages(this.CurrentFriendId);
             }
+        }
+
+        private void menuNotification_Click(object sender, EventArgs e)
+        {
+            NotificationForm notifications = new NotificationForm();
+            GetNotifications();
+            notifications.cbNotifications.DataSource = this.Notifications;
+            notifications.ShowDialog();
+
         }
     }
 
