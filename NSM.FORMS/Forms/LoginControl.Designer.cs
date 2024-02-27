@@ -93,7 +93,6 @@
             // 
             // lbLogo
             // 
-            lbLogo.Image = (Image)resources.GetObject("lbLogo.Image");
             lbLogo.Location = new Point(79, 14);
             lbLogo.Name = "lbLogo";
             lbLogo.Size = new Size(153, 155);
