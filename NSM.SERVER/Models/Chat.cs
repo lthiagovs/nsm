@@ -2,7 +2,7 @@
 
 namespace NSM.SERVER.Models
 {
-    class Chat
+    public class Chat
     {
 
         [Key]

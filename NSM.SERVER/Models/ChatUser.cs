@@ -2,7 +2,7 @@
 
 namespace NSM.SERVER.Models
 {
-    class ChatUser
+    public class ChatUser
     {
 
         public int Id { get; set; }
