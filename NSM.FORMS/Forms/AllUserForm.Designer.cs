@@ -1,6 +1,6 @@
 ﻿namespace NSM.FORMS.Forms
 {
-    partial class FriendsForm
+    partial class AllUserForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FriendsForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AllUserForm));
             label1 = new Label();
-            txtName = new TextBox();
-            btbSearcg = new Button();
+            cbUser = new ComboBox();
+            btnAdd = new Button();
             SuspendLayout();
             // 
             // label1
@@ -39,40 +39,44 @@
             label1.AutoSize = true;
             label1.Location = new Point(12, 9);
             label1.Name = "label1";
-            label1.Size = new Size(160, 15);
+            label1.Size = new Size(103, 15);
             label1.TabIndex = 0;
-            label1.Text = "Digite o nome do seu amigo:";
+            label1.Text = "Todos os usuários:";
             // 
-            // txtName
+            // cbUser
             // 
-            txtName.Location = new Point(12, 27);
-            txtName.Name = "txtName";
-            txtName.Size = new Size(200, 23);
-            txtName.TabIndex = 1;
+            cbUser.AutoCompleteMode = AutoCompleteMode.Suggest;
+            cbUser.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            cbUser.FormattingEnabled = true;
+            cbUser.Location = new Point(12, 27);
+            cbUser.Name = "cbUser";
+            cbUser.Size = new Size(230, 23);
+            cbUser.Sorted = true;
+            cbUser.TabIndex = 1;
             // 
-            // btbSearcg
+            // btnAdd
             // 
-            btbSearcg.DialogResult = DialogResult.OK;
-            btbSearcg.Location = new Point(138, 56);
-            btbSearcg.Name = "btbSearcg";
-            btbSearcg.Size = new Size(75, 23);
-            btbSearcg.TabIndex = 2;
-            btbSearcg.Text = "Procurar";
-            btbSearcg.UseVisualStyleBackColor = true;
+            btnAdd.DialogResult = DialogResult.OK;
+            btnAdd.Location = new Point(167, 75);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(75, 23);
+            btnAdd.TabIndex = 2;
+            btnAdd.Text = "Adicionar";
+            btnAdd.UseVisualStyleBackColor = true;
             // 
-            // FriendsForm
+            // AllUserForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(225, 99);
-            Controls.Add(btbSearcg);
-            Controls.Add(txtName);
+            ClientSize = new Size(254, 110);
+            Controls.Add(btnAdd);
+            Controls.Add(cbUser);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "FriendsForm";
+            Name = "AllUserForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "NSM";
             ResumeLayout(false);
@@ -82,7 +86,7 @@
         #endregion
 
         private Label label1;
-        private Button btbSearcg;
-        public TextBox txtName;
+        private Button btnAdd;
+        public ComboBox cbUser;
     }
 }

@@ -1,4 +1,9 @@
-﻿namespace NSM.FORMS.Forms
+﻿using Microsoft.VisualBasic.Devices;
+using NSM.COMMON;
+using NSM.FORMS.CORE;
+using System.Security.Cryptography;
+
+namespace NSM.FORMS.Forms
 {
     public partial class FriendControl : UserControl
     {
@@ -6,9 +11,39 @@
         {
             InitializeComponent();
             this.FriendID = FriendId;
+
+            //Request profile photo to server
+            MessagePackage Message = new MessagePackage();
+            Message.ClientId = FriendId;
+            Message.MessageType = MessageType.Message_GetProfilePhoto;
+            Message.Informations = new List<string>();
+
+            Client.Send(Message);
+            MessagePackage Received = Client.Listen();
+
+            if(Received.MessageType==MessageType.Message_Confirmation)
+            {
+
+                byte[] imgBytes = Convert.FromBase64String(Received.Informations[0]);
+                if(!File.Exists(this.FriendID+".jpg"))
+                {
+                    File.Create(this.FriendID + ".jpg").Close() ;
+                }
+                File.WriteAllBytes(this.FriendID + ".jpg", imgBytes);
+                this.pbPhoto.ImageLocation = this.FriendID + ".jpg";
+                this.pbPhoto.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            }
+            else
+            {
+                this.pbPhoto.ImageLocation = "anonymAvatar.jpg";
+                this.pbPhoto.SizeMode = PictureBoxSizeMode.StretchImage;
+            }
+            //Request profile photo to server
+
         }
 
-        private int FriendID;
+        public int FriendID;
 
         private void OpenChat()
         {
@@ -16,6 +51,8 @@
             {
                 MainForm parent = (MainForm)this.Parent.Parent.Parent;
                 parent.LoadMessages(FriendID);
+                parent.CurrentFriendId = FriendID;
+                parent.lbChatName.Text = this.lbName.Text;
 
             }
             catch(Exception ex)

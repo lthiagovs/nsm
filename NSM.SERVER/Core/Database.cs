@@ -1,5 +1,7 @@
-﻿using NSM.SERVER.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using NSM.SERVER.Database;
 using NSM.SERVER.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace NSM.SERVER.CORE
 {
@@ -46,6 +48,7 @@ namespace NSM.SERVER.CORE
                 catch
                 {
                     return getUser;
+                    // Comentário legal
                 }
 
             }
@@ -388,6 +391,125 @@ namespace NSM.SERVER.CORE
 
             }
 
+        }
+
+        //**Very complex!!**// O(x) //**Very complex!!**//
+        public static List<Chat> GetGroups(int UserId)
+        {
+            List<Chat> Groups = new List<Chat>();
+
+
+            using (DatabaseContext db = new DatabaseContext())
+            {
+
+                //Get user chats
+                List<ChatUser> UserChats = db.ChatUser.Where(x => x.UserId == UserId).ToList();
+
+                //Get all user groups
+                foreach(ChatUser chatUser in UserChats)
+                {
+                    try
+                    {
+                        Groups.Add(db.Chat.Single(x => x.Id == chatUser.ChatId && !(x.Name.Equals("FriendChat")) ));
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                }
+
+
+            }
+            return Groups;
+        }
+
+        public static bool ChangeProfilePhoto(int UserId, byte[] image)
+        {
+            try
+            {
+                using (DatabaseContext db = new DatabaseContext())
+                {
+                    User user = db.User.Single(x => x.Id == UserId);
+                    user.Photo = @"Photos\"+user.Name+".jpg";
+                    db.User.Attach(user);
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    //Save photo
+                    if(!File.Exists(user.Photo)) {
+                        File.Create(user.Photo).Close();
+                    }
+                    File.WriteAllBytes(user.Photo, image);
+                    //Save photo
+
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public static string GetProfilePhoto(int UserId)
+        {
+            string photo64 = "";
+
+            try
+            {
+                using(DatabaseContext db = new DatabaseContext())
+                {
+                    User user = db.User.Single(x=>x.Id==UserId);
+
+                    byte[] imgBytes = File.ReadAllBytes(@"Photos\"+user.Name+".jpg");
+                    photo64 = Convert.ToBase64String(imgBytes);
+
+                }
+                return photo64;
+            }
+            catch
+            {
+                return photo64;
+            }
+            
+        }
+        public static string ChangeUserName(int UserId, string NewName)
+        {
+            string oldName = "";
+            try
+            {
+                using(DatabaseContext db = new DatabaseContext())
+                {
+
+                    User user = db.User.Single(x => x.Id == UserId);
+                    oldName = user.Name;
+                    user.Name = NewName;
+                    db.User.Attach(user);
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                }
+                return oldName;
+            }
+            catch
+            {
+                return oldName;
+            }
+        }
+        public static List<string> GetAllUserNames()
+        {
+            List<string> names = new List<string>();
+
+            using(DatabaseContext db =new DatabaseContext())
+            {
+
+                foreach(User user in db.User)
+                {
+                    names.Add(user.Name);
+                }
+
+            }
+
+            return names;
         }
 
     }

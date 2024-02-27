@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountForm));
             menu = new MenuStrip();
             menuAccount = new ToolStripMenuItem();
             menuLogin = new ToolStripMenuItem();
@@ -38,56 +39,61 @@
             // 
             // menu
             // 
+            menu.ImageScalingSize = new Size(20, 20);
             menu.Items.AddRange(new ToolStripItem[] { menuAccount });
             menu.Location = new Point(0, 0);
             menu.Name = "menu";
-            menu.Size = new Size(314, 24);
+            menu.Size = new Size(314, 28);
             menu.TabIndex = 0;
             menu.Text = "menuStrip1";
             // 
             // menuAccount
             // 
             menuAccount.DropDownItems.AddRange(new ToolStripItem[] { menuLogin, menuRegister });
+            menuAccount.Image = (Image)resources.GetObject("menuAccount.Image");
             menuAccount.Name = "menuAccount";
-            menuAccount.Size = new Size(51, 20);
+            menuAccount.Size = new Size(71, 24);
             menuAccount.Text = "Conta";
             // 
             // menuLogin
             // 
             menuLogin.Name = "menuLogin";
-            menuLogin.Size = new Size(120, 22);
+            menuLogin.Size = new Size(180, 22);
             menuLogin.Text = "Entrar";
             menuLogin.Click += menuLogin_Click;
             // 
             // menuRegister
             // 
             menuRegister.Name = "menuRegister";
-            menuRegister.Size = new Size(120, 22);
+            menuRegister.Size = new Size(180, 22);
             menuRegister.Text = "Registrar";
             menuRegister.Click += menuRegister_Click;
             // 
             // pnMain
             // 
-            pnMain.Dock = DockStyle.Fill;
-            pnMain.Location = new Point(0, 24);
+            pnMain.BackColor = SystemColors.ButtonHighlight;
+            pnMain.Location = new Point(0, 25);
+            pnMain.Margin = new Padding(3, 2, 3, 2);
             pnMain.Name = "pnMain";
             pnMain.Size = new Size(314, 417);
-            pnMain.TabIndex = 1;
+            pnMain.TabIndex = 2;
             // 
             // AccountForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(314, 441);
+            ClientSize = new Size(314, 445);
             Controls.Add(pnMain);
             Controls.Add(menu);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menu;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "AccountForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "NSM";
+            Load += AccountForm_Load_1;
             menu.ResumeLayout(false);
             menu.PerformLayout();
             ResumeLayout(false);

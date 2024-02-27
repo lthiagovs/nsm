@@ -1,6 +1,6 @@
 ﻿namespace NSM.FORMS.Forms
 {
-    partial class FriendsForm
+    partial class RemoveFriendForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FriendsForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RemoveFriendForm));
             label1 = new Label();
-            txtName = new TextBox();
-            btbSearcg = new Button();
+            cbFriends = new ComboBox();
+            btnRemove = new Button();
             SuspendLayout();
             // 
             // label1
@@ -39,40 +39,41 @@
             label1.AutoSize = true;
             label1.Location = new Point(12, 9);
             label1.Name = "label1";
-            label1.Size = new Size(160, 15);
+            label1.Size = new Size(51, 15);
             label1.TabIndex = 0;
-            label1.Text = "Digite o nome do seu amigo:";
+            label1.Text = "Amigos:";
             // 
-            // txtName
+            // cbFriends
             // 
-            txtName.Location = new Point(12, 27);
-            txtName.Name = "txtName";
-            txtName.Size = new Size(200, 23);
-            txtName.TabIndex = 1;
+            cbFriends.FormattingEnabled = true;
+            cbFriends.Location = new Point(12, 27);
+            cbFriends.Name = "cbFriends";
+            cbFriends.Size = new Size(220, 23);
+            cbFriends.TabIndex = 1;
             // 
-            // btbSearcg
+            // btnRemove
             // 
-            btbSearcg.DialogResult = DialogResult.OK;
-            btbSearcg.Location = new Point(138, 56);
-            btbSearcg.Name = "btbSearcg";
-            btbSearcg.Size = new Size(75, 23);
-            btbSearcg.TabIndex = 2;
-            btbSearcg.Text = "Procurar";
-            btbSearcg.UseVisualStyleBackColor = true;
+            btnRemove.DialogResult = DialogResult.OK;
+            btnRemove.Location = new Point(157, 56);
+            btnRemove.Name = "btnRemove";
+            btnRemove.Size = new Size(75, 23);
+            btnRemove.TabIndex = 2;
+            btnRemove.Text = "Remover";
+            btnRemove.UseVisualStyleBackColor = true;
             // 
-            // FriendsForm
+            // RemoveFriendForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(225, 99);
-            Controls.Add(btbSearcg);
-            Controls.Add(txtName);
+            ClientSize = new Size(242, 90);
+            Controls.Add(btnRemove);
+            Controls.Add(cbFriends);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "FriendsForm";
+            Name = "RemoveFriendForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "NSM";
             ResumeLayout(false);
@@ -82,7 +83,7 @@
         #endregion
 
         private Label label1;
-        private Button btbSearcg;
-        public TextBox txtName;
+        public ComboBox cbFriends;
+        private Button btnRemove;
     }
 }
